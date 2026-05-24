@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload – Ritemasta Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #faf8f5;
+            color: #1a1a2e;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            color: #2d1b0e;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* HEADER */
+        .header {
+            background: #2d1b0e;
+            padding: 0.8rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f5f0eb;
+            font-family: 'Playfair Display', serif;
+        }
+        .logo-accent { color: #f4a261; }
+        .nav {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            color: #b8a89a;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .nav-link:hover { color: #f5f0eb; }
+        .nav-link.active { color: #f5f0eb; background: #4a3728; }
+        .nav-link.export-link { color: #f4a261; font-weight: 700; }
+        .nav-link.contact-link { color: #2a9d8f; }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary {
+            background: #f4a261;
+            color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(244, 162, 97, 0.3);
+        }
+        .btn-primary:hover {
+            background: #e08f4a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 162, 97, 0.4);
+        }
+        .btn-large { padding: 0.8rem 2.5rem; font-size: 1.1rem; }
+        .btn-small { padding: 0.4rem 1.2rem; font-size: 0.85rem; }
+
+        /* PAGE CONTENT */
+        .page-content { padding: 3rem 1.5rem; background: white; }
+        .page-header { text-align: center; margin-bottom: 3rem; }
+        .page-header h1 { font-size: 2.4rem; }
+        .page-header p { color: #6a5a4a; font-size: 1.1rem; }
+
+        /* UPLOAD ZONE */
+        .upload-zone {
+            border: 3px dashed #d8d0c8;
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: #faf8f5;
+            transition: 0.3s;
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+        .upload-zone:hover {
+            border-color: #f4a261;
+            background: #fdf8f0;
+        }
+        .upload-zone .icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .upload-zone h3 { font-size: 1.2rem; color: #4a3728; margin-bottom: 0.5rem; }
+        .upload-zone p { color: #8a7a6a; font-size: 0.9rem; }
+        .upload-zone input[type="file"] { display: none; }
+
+        .upload-status {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            display: none;
+        }
+        .upload-status.success {
+            display: block;
+            background: #e8f5e9;
+            border: 1px solid #2a9d8f;
+            color: #1a5a4a;
+        }
+        .upload-status.error {
+            display: block;
+            background: #fde8e8;
+            border: 1px solid #e76f51;
+            color: #7a3a2a;
+        }
+
+        /* INFO BOX */
+        .info-box {
+            padding: 1.5rem;
+            background: #faf8f5;
+            border-radius: 12px;
+            border: 1px solid #e8e0d8;
+        }
+        .info-box h4 { margin-bottom: 0.5rem; }
+        .info-box ul { list-style: none; color: #6a5a4a; font-size: 0.9rem; line-height: 1.8; }
+
+        /* FOOTER */
+        .footer {
+            background: #1a1a2e;
+            color: #b8a89a;
+            padding: 3rem 1.5rem 1rem;
+        }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-col h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #f5f0eb;
+            margin-bottom: 1rem;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f5f0eb;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+        }
+        .footer-desc { font-size: 0.9rem; line-height: 1.6; max-width: 300px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.4rem; }
+        .footer-links a { font-size: 0.9rem; transition: 0.2s; }
+        .footer-links a:hover { color: #f4a261; }
+        .footer-bottom {
+            border-top: 1px solid #2d2d4e;
+            padding-top: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        .footer-disclaimer { color: #6a5a4a; margin-top: 0.3rem; }
+
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; align-items: center; }
+            .nav { justify-content: center; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <span style="font-size:1.8rem; color:#f4a261;">✦</span>
+                <span>Ritemasta<span class="logo-accent">Pro</span></span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="upload.html" class="nav-link active">Upload</a>
+                <a href="editor.html" class="nav-link">Editor</a>
+                <a href="settings.html" class="nav-link">Settings</a>
+                <a href="layout.html" class="nav-link">Layout</a>
+                <a href="export.html" class="nav-link export-link">Export</a>
+                <a href="save.html" class="nav-link">Save</a>
+                <a href="contact.html" class="nav-link contact-link">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <a href="export.html" class="btn btn-primary btn-small">Buy Now – $49.99</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>📤 Upload & Import</h1>
+                <p>Import your DOCX file and let Ritemasta auto-format your book.</p>
+            </div>
+
+            <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+                <div class="icon">📄</div>
+                <h3>Drag & Drop or Click to Upload</h3>
+                <p>Supports .docx files from Microsoft Word, Google Docs, and other word processors</p>
+                <input type="file" id="fileInput" accept=".docx" onchange="handleFileUpload(event)">
+            </div>
+
+            <div id="uploadStatus" class="upload-status"></div>
+
+            <div class="info-box">
+                <h4>📋 What happens after upload:</h4>
+                <ul>
+                    <li>✅ Automatically detects chapters, headings, and structure</li>
+                    <li>✅ Generates Table of Contents</li>
+                    <li>✅ Preserves formatting (bold, italic, headings, lists)</li>
+                    <li>✅ Converts to editable chapters in the Editor section</li>
+                    <li>✅ Ready for review and refinement</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <span style="font-size:1.8rem; color:#f4a261;">✦</span>
+                        <span>Ritemasta<span class="logo-accent">Pro</span></span>
+                    </div>
+                    <p class="footer-desc">Premium book publishing suite for independent authors and creators.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="upload.html">Upload</a></li>
+                        <li><a href="editor.html">Editor</a></li>
+                        <li><a href="settings.html">Settings</a></li>
+                        <li><a href="layout.html">Layout</a></li>
+                        <li><a href="export.html">Export</a></li>
+                        <li><a href="save.html">Save</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:ritemasta@gmail.com">✉️ ritemasta@gmail.com</a></li>
+                        <li><a href="tel:+233249845856">📞 +233 249 845 856</a></li>
+                        <li><a href="tel:+233500119195">📞 +233 500 119 195</a></li>
+                        <li><a href="contact.html">📝 Contact Form</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><strong>BN:</strong> BN360822013</li>
+                        <li><strong>TIN:</strong> P0002032406</li>
+                        <li>Ghana Business Names Act, 1962</li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ritemasta Pro. All rights reserved.</p>
+                <p class="footer-disclaimer"><small>Complaints hotline: +233 249 845 856 / +233 500 119 195 | ritemasta@gmail.com</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const status = document.getElementById('uploadStatus');
+            status.className = 'upload-status';
+            status.textContent = '⏳ Uploading and processing...';
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const arrayBuffer = e.target.result;
+                if (typeof mammoth === 'undefined') {
+                    const script = document.createElement('script');
+                    script.src = 'https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js';
+                    script.onload = function() { parseDocx(arrayBuffer); };
+                    document.head.appendChild(script);
+                } else {
+                    parseDocx(arrayBuffer);
+                }
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        function parseDocx(arrayBuffer) {
+            mammoth.extractRawText({ arrayBuffer: arrayBuffer })
+                .then(function(result) {
+                    const text = result.value;
+                    const lines = text.split('\n');
+                    let newChapters = [];
+                    let currentContent = [];
+                    let currentTitle = 'Chapter 1';
+                    lines.forEach(line => {
+                        line = line.trim();
+                        if (line.match(/^(Chapter|Part|Section)\s+\d+/i)) {
+                            if (currentContent.length > 0) {
+                                newChapters.push({ id: 'ch' + Date.now(), title: currentTitle, content: currentContent.join('\n') });
+                            }
+                            currentTitle = line;
+                            currentContent = [];
+                        } else if (line.length > 0) {
+                            currentContent.push(line);
+                        }
+                    });
+                    if (currentContent.length > 0 || newChapters.length === 0) {
+                        newChapters.push({ id: 'ch' + Date.now(), title: currentTitle, content: currentContent.join('\n') });
+                    }
+                    if (newChapters.length > 0) {
+                        localStorage.setItem('ritemasta_chapters', JSON.stringify(newChapters));
+                        document.getElementById('uploadStatus').className = 'upload-status success';
+                        document.getElementById('uploadStatus').textContent = '✅ Success! Imported ' + newChapters.length + ' chapters. Go to Editor to review.';
+                    }
+                })
+                .catch(function(err) {
+                    document.getElementById('uploadStatus').className = 'upload-status error';
+                    document.getElementById('uploadStatus').textContent = '❌ Error importing DOCX.';
+                });
+        }
+    </script>
+</body>
+</html>
