@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload – Ritemasta Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">✦</span>
+            Ritemasta <span class="logo-accent">Pro</span>
+        </div>
+        <nav class="nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="upload.html" class="nav-link active">Upload</a>
+            <a href="editor.html" class="nav-link">Editor</a>
+            <a href="settings.html" class="nav-link">Settings</a>
+            <a href="layout.html" class="nav-link">Layout</a>
+            <a href="export.html" class="nav-link export-link">Export</a>
+            <a href="save.html" class="nav-link">Save</a>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <div class="page-header">
+            <h1>📤 Upload & Import</h1>
+            <p>Import your DOCX file and let Ritemasta auto-format your book.</p>
+        </div>
+
+        <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
+            <div class="upload-icon">📄</div>
+            <h3>Drag & Drop or Click to Upload</h3>
+            <p>Supports .docx files from Microsoft Word, Google Docs, and other word processors</p>
+            <input type="file" id="fileInput" accept=".docx" onchange="handleFileUpload(event)">
+        </div>
+
+        <div id="uploadStatus" class="upload-status"></div>
+
+        <div class="info-box">
+            <h4>📋 What happens after upload:</h4>
+            <ul>
+                <li>✅ Automatically detects chapters, headings, and structure</li>
+                <li>✅ Generates Table of Contents</li>
+                <li>✅ Preserves formatting (bold, italic, headings, lists)</li>
+                <li>✅ Converts to editable chapters in the Editor section</li>
+                <li>✅ Ready for review and refinement</li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Ritemasta Pro © 2026 – Built for independent authors.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
