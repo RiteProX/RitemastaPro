@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save – Ritemasta Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">✦</span>
+            Ritemasta <span class="logo-accent">Pro</span>
+        </div>
+        <nav class="nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="upload.html" class="nav-link">Upload</a>
+            <a href="editor.html" class="nav-link">Editor</a>
+            <a href="settings.html" class="nav-link">Settings</a>
+            <a href="layout.html" class="nav-link">Layout</a>
+            <a href="export.html" class="nav-link export-link">Export</a>
+            <a href="save.html" class="nav-link active">Save</a>
+        </nav>
+    </header>
+
+    <main class="page-content">
+        <div class="page-header">
+            <h1>💾 Save & Backup</h1>
+            <p>Keep your work safe.</p>
+        </div>
+
+        <div class="save-grid">
+            <div class="save-card" onclick="saveProject()">
+                <div class="save-icon">💾</div>
+                <h4>Save Project</h4>
+                <p>Save to browser storage • Auto-recover on reload</p>
+                <span class="save-badge">Auto-Save Enabled</span>
+            </div>
+            <div class="save-card" onclick="exportDOCX()">
+                <div class="save-icon">📁</div>
+                <h4>Backup as DOCX</h4>
+                <p>Save a complete Word document backup</p>
+                <span class="save-badge recommended">Recommended</span>
+            </div>
+        </div>
+
+        <div class="project-summary">
+            <h4>📋 Project Summary</h4>
+            <div class="summary-grid">
+                <div><strong>Chapters:</strong> <span id="chapterCount">0</span></div>
+                <div><strong>Total Words:</strong> <span id="totalWords">0</span></div>
+                <div><strong>Estimated Pages:</strong> <span id="totalPages">0</span></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Ritemasta Pro © 2026 – Built for independent authors.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
