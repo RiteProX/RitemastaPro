@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor – Ritemasta Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <span class="logo-icon">✦</span>
+            Ritemasta <span class="logo-accent">Pro</span>
+        </div>
+        <nav class="nav">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="upload.html" class="nav-link">Upload</a>
+            <a href="editor.html" class="nav-link active">Editor</a>
+            <a href="settings.html" class="nav-link">Settings</a>
+            <a href="layout.html" class="nav-link">Layout</a>
+            <a href="export.html" class="nav-link export-link">Export</a>
+            <a href="save.html" class="nav-link">Save</a>
+        </nav>
+    </header>
+
+    <main class="page-content full-height">
+        <div class="page-header">
+            <h1>✏️ Editor</h1>
+            <p>Review and edit your formatted content.</p>
+        </div>
+
+        <div class="editor-container">
+            <!-- Left: Table of Contents -->
+            <div class="editor-panel toc-panel">
+                <div class="panel-header">
+                    <h4>📖 Table of Contents</h4>
+                    <button onclick="refreshTOC()" class="btn-small">🔄 Refresh</button>
+                </div>
+                <ul id="tocList" class="toc-list">
+                    <li class="level-1">Chapter 1: Introduction</li>
+                    <li class="level-2">Section 1.1</li>
+                    <li class="level-2">Section 1.2</li>
+                    <li class="level-1">Chapter 2: Main Content</li>
+                    <li class="level-2">Section 2.1</li>
+                    <li class="level-3">Subsection 2.1.1</li>
+                    <li class="level-1">Chapter 3: Conclusion</li>
+                </ul>
+            </div>
+
+            <!-- Right: Chapter Editor -->
+            <div class="editor-panel content-panel">
+                <div class="panel-header">
+                    <h4>📝 Chapter Content</h4>
+                    <div class="chapter-controls">
+                        <select id="chapterSelector" onchange="loadChapter()">
+                            <option>Chapter 1: Introduction</option>
+                            <option>Chapter 2: Main Content</option>
+                            <option>Chapter 3: Conclusion</option>
+                        </select>
+                        <button onclick="addChapter()" class="btn-small btn-green">+ Add</button>
+                        <button onclick="deleteChapter()" class="btn-small btn-danger">🗑 Delete</button>
+                    </div>
+                </div>
+                <textarea id="chapterContent" placeholder="Edit your chapter content here...">This is your chapter content. You can edit it directly.</textarea>
+                <div class="editor-stats">
+                    <span id="wordCount">0 words</span>
+                    <span id="charCount">0 characters</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Ritemasta Pro © 2026 – Built for independent authors.</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
