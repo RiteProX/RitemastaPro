@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export – Ritemasta Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <img src="logo.png" alt="Ritemasta" class="logo-img">
+                <span>Ritemasta<span class="logo-accent">Pro</span></span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="upload.html" class="nav-link">Upload</a>
+                <a href="editor.html" class="nav-link">Editor</a>
+                <a href="settings.html" class="nav-link">Settings</a>
+                <a href="layout.html" class="nav-link">Layout</a>
+                <a href="export.html" class="nav-link export-link active">Export</a>
+                <a href="save.html" class="nav-link">Save</a>
+                <a href="contact.html" class="nav-link contact-link">Contact</a>
+            </nav>
+            <div class="header-actions">
+                <a href="export.html" class="btn btn-primary btn-small">Buy Now – $49.99</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>📤 Export</h1>
+                <p>Generate your book in multiple professional formats.</p>
+            </div>
+
+            <div class="export-grid">
+                <div class="export-card" onclick="handleExportClick('pdf')">
+                    <div class="export-icon">📄</div>
+                    <h4>PDF</h4>
+                    <p>Print-ready • For KDP, IngramSpark, Lulu</p>
+                    <span class="badge">Popular</span>
+                </div>
+                <div class="export-card" onclick="handleExportClick('epub')">
+                    <div class="export-icon">📱</div>
+                    <h4>EPUB</h4>
+                    <p>eBook • For Kindle, Kobo, Apple Books</p>
+                    <span class="badge">eBook</span>
+                </div>
+                <div class="export-card" onclick="handleExportClick('docx')">
+                    <div class="export-icon">📝</div>
+                    <h4>DOCX</h4>
+                    <p>Word format • Backup and edit</p>
+                    <span class="badge">Editable</span>
+                </div>
+                <div class="export-card" onclick="handleExportClick('html')">
+                    <div class="export-icon">🌐</div>
+                    <h4>HTML</h4>
+                    <p>Web-ready • For blogs, websites</p>
+                </div>
+                <div class="export-card" onclick="handleExportClick('txt')">
+                    <div class="export-icon">📃</div>
+                    <h4>TXT</h4>
+                    <p>Plain text • Universal compatibility</p>
+                </div>
+                <div class="export-card premium" onclick="handleExportClick('all')">
+                    <div class="export-icon">📦</div>
+                    <h4>Export All</h4>
+                    <p>Generate all formats at once</p>
+                    <span class="badge premium">🔒 Premium</span>
+                </div>
+            </div>
+
+            <div class="pricing-banner">
+                <div class="pricing-content">
+                    <h3>🔒 Unlock All Export Formats</h3>
+                    <p>One-time payment of <strong>$49.99</strong> – pay with crypto, get lifetime access.</p>
+                    <div class="pricing-buttons">
+                        <a href="#" class="btn btn-primary" onclick="document.getElementById('unlockOverlay').style.display='flex'">Unlock Now – $49.99</a>
+                        <span class="pricing-note">No subscription. No hidden fees.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="unlockOverlay" class="unlock-overlay" style="display:none;">
+                <div class="unlock-modal">
+                    <div class="unlock-header">
+                        <span class="unlock-icon">🔒</span>
+                        <h2>Unlock Ritemasta Pro</h2>
+                        <p>One-time purchase • Lifetime access</p>
+                    </div>
+                    <div class="unlock-body">
+                        <div class="unlock-price">
+                            <span class="price">$49.99 USD</span>
+                            <span class="price-note">Pay once, export forever</span>
+                        </div>
+                        <div class="unlock-addresses">
+                            <h4>Pay to any address below:</h4>
+                            <div class="address-item">
+                                <strong>ETH / BNB:</strong>
+                                <code>0x161caE357e1C08022A07b79F124fA395F24bE053</code>
+                                <button onclick="copyAddress(this)" class="btn-small">Copy</button>
+                            </div>
+                            <div class="address-item">
+                                <strong>SOL:</strong>
+                                <code>YoxQ94taomLRs7wsDcDYL1NDjBenpcrVNMCmNp1m7yQ</code>
+                                <button onclick="copyAddress(this)" class="btn-small">Copy</button>
+                            </div>
+                            <div class="address-item">
+                                <strong>BTC:</strong>
+                                <code>bc1qr0xfzkelhz3xpf53h57ew5uks5hsqkjwwavuzx</code>
+                                <button onclick="copyAddress(this)" class="btn-small">Copy</button>
+                            </div>
+                        </div>
+                        <div class="unlock-code">
+                            <h4>Already have a code?</h4>
+                            <div class="code-input-group">
+                                <input id="unlockCodeInput" placeholder="Enter your license code">
+                                <button onclick="verifyCode()" class="btn btn-primary">Unlock Export</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="unlock-footer">
+                        <p><small>After payment, email your transaction hash to <strong>ritemasta@gmail.com</strong> to receive your code.</small></p>
+                        <button onclick="closeUnlock()" class="btn-text">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Export Complete</h2>
+            <p id="modalMessage">Your book has been exported.</p>
+            <button onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <img src="logo.png" alt="Ritemasta" class="footer-logo-img">
+                        <span>Ritemasta<span class="logo-accent">Pro</span></span>
+                    </div>
+                    <p class="footer-desc">Premium book publishing suite for independent authors and creators.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="upload.html">Upload</a></li>
+                        <li><a href="editor.html">Editor</a></li>
+                        <li><a href="settings.html">Settings</a></li>
+                        <li><a href="layout.html">Layout</a></li>
+                        <li><a href="export.html">Export</a></li>
+                        <li><a href="save.html">Save</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:ritemasta@gmail.com">✉️ ritemasta@gmail.com</a></li>
+                        <li><a href="tel:+233249845856">📞 +233 249 845 856</a></li>
+                        <li><a href="tel:+233500119195">📞 +233 500 119 195</a></li>
+                        <li><a href="contact.html">📝 Contact Form</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><strong>BN:</strong> BN360822013</li>
+                        <li><strong>TIN:</strong> P0002032406</li>
+                        <li>Ghana Business Names Act, 1962</li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ritemasta Pro. All rights reserved.</p>
+                <p class="footer-disclaimer"><small>Complaints hotline: +233 249 845 856 / +233 500 119 195 | ritemasta@gmail.com</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
