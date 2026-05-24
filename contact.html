@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact – Ritemasta Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #faf8f5;
+            color: #1a1a2e;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            color: #2d1b0e;
+        }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* ========== HEADER ========== */
+        .header {
+            background: #2d1b0e;
+            padding: 0.8rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #f5f0eb;
+            font-family: 'Playfair Display', serif;
+        }
+        .logo-accent { color: #f4a261; }
+        .nav {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            color: #b8a89a;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .nav-link:hover { color: #f5f0eb; }
+        .nav-link.active { color: #f5f0eb; background: #4a3728; }
+        .nav-link.export-link { color: #f4a261; font-weight: 700; }
+        .nav-link.contact-link { color: #2a9d8f; }
+        .nav-link.admin-link { color: #f4a261; font-weight: 700; }
+
+        /* ========== BUTTONS ========== */
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+        }
+        .btn-primary {
+            background: #f4a261;
+            color: #1a1a2e;
+            box-shadow: 0 4px 12px rgba(244, 162, 97, 0.3);
+        }
+        .btn-primary:hover {
+            background: #e08f4a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 162, 97, 0.4);
+        }
+        .btn-large { padding: 0.8rem 2.5rem; font-size: 1.1rem; }
+        .btn-small { padding: 0.4rem 1.2rem; font-size: 0.85rem; }
+
+        /* ========== PAGE HEADER ========== */
+        .page-content { padding: 3rem 1.5rem; background: white; }
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+        .page-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: #f4a261;
+            margin: 1rem auto 0;
+            border-radius: 2px;
+        }
+        .page-header h1 {
+            font-size: 2.8rem;
+            color: #2d1b0e;
+            margin-bottom: 0.5rem;
+        }
+        .page-header h1 .highlight { color: #f4a261; }
+        .page-header p {
+            font-size: 1.15rem;
+            color: #6a5a4a;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ========== CONTENT GRID ========== */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* ========== CONTACT INFO ========== */
+        .contact-info {
+            display: grid;
+            gap: 1.5rem;
+        }
+        .contact-card {
+            background: #faf8f5;
+            padding: 1.8rem;
+            border-radius: 16px;
+            border: 1px solid #e8e0d8;
+            text-align: center;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: #f4a261;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .contact-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        }
+        .contact-card:hover::before {
+            opacity: 1;
+        }
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .contact-card h3 {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #2d1b0e;
+            margin-bottom: 0.3rem;
+        }
+        .contact-card p {
+            font-size: 0.95rem;
+            color: #4a3728;
+        }
+        .contact-card a {
+            color: #2d1b0e;
+            transition: 0.2s;
+        }
+        .contact-card a:hover {
+            color: #f4a261;
+        }
+        .contact-card .label {
+            display: inline-block;
+            padding: 0.15rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: #e8e0d8;
+            color: #4a3728;
+            margin-top: 0.5rem;
+        }
+        .contact-card .label.gold { background: #f4a261; color: #1a1a2e; }
+        .contact-card .label.green { background: #2a9d8f; color: white; }
+        .contact-card .label.whatsapp { background: #25D366; color: white; }
+
+        /* ========== CONTACT FORM ========== */
+        .contact-form-wrapper {
+            background: #faf8f5;
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 1px solid #e8e0d8;
+            position: relative;
+        }
+        .contact-form-wrapper::before {
+            content: '✉️';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 3rem;
+            opacity: 0.1;
+            transform: rotate(15deg);
+        }
+        .contact-form-wrapper h3 {
+            font-size: 1.4rem;
+            color: #2d1b0e;
+            margin-bottom: 0.3rem;
+        }
+        .contact-form-wrapper .subtitle {
+            color: #8a7a6a;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-form .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .contact-form .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #4a3728;
+            margin-bottom: 0.3rem;
+        }
+        .contact-form .form-group input,
+        .contact-form .form-group select,
+        .contact-form .form-group textarea {
+            width: 100%;
+            padding: 0.7rem;
+            border: 2px solid #e8e0d8;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: white;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+        .contact-form .form-group input:focus,
+        .contact-form .form-group select:focus,
+        .contact-form .form-group textarea:focus {
+            outline: none;
+            border-color: #f4a261;
+            box-shadow: 0 0 0 4px rgba(244, 162, 97, 0.1);
+        }
+        .contact-form .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .contact-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-status {
+            margin-top: 1rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            display: none;
+            font-weight: 500;
+        }
+        .form-status.success {
+            display: block;
+            background: #e8f5e9;
+            color: #1a5a4a;
+            border: 1px solid #2a9d8f;
+        }
+        .form-status.error {
+            display: block;
+            background: #fde8e8;
+            color: #7a3a2a;
+            border: 1px solid #e76f51;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: #1a1a2e;
+            color: #b8a89a;
+            padding: 3rem 1.5rem 1rem;
+        }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-col h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #f5f0eb;
+            margin-bottom: 1rem;
+        }
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #f5f0eb;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+        }
+        .footer-desc { font-size: 0.9rem; line-height: 1.6; max-width: 300px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.4rem; }
+        .footer-links a { font-size: 0.9rem; transition: 0.2s; }
+        .footer-links a:hover { color: #f4a261; }
+        .footer-bottom {
+            border-top: 1px solid #2d2d4e;
+            padding-top: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        .footer-disclaimer { color: #6a5a4a; margin-top: 0.3rem; }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1024px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .contact-info {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+        }
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; align-items: center; }
+            .nav { justify-content: center; }
+            .page-header h1 { font-size: 2rem; }
+            .contact-info { grid-template-columns: 1fr; }
+            .contact-form .form-row { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .page-header h1 { font-size: 1.6rem; }
+            .contact-form-wrapper { padding: 1.5rem; }
+            .contact-card { padding: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== HEADER ========== -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <span style="font-size:1.8rem; color:#f4a261;">✦</span>
+                <span>Ritemasta<span class="logo-accent">Pro</span></span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="upload.html" class="nav-link">Upload</a>
+                <a href="editor.html" class="nav-link">Editor</a>
+                <a href="settings.html" class="nav-link">Settings</a>
+                <a href="layout.html" class="nav-link">Layout</a>
+                <a href="export.html" class="nav-link export-link">Export</a>
+                <a href="save.html" class="nav-link">Save</a>
+                <a href="contact.html" class="nav-link contact-link active">Contact</a>
+                <a href="admin.html" class="nav-link admin-link">🔑 Admin</a>
+            </nav>
+            <div class="header-actions">
+                <a href="export.html" class="btn btn-primary btn-small">Buy Now – $49.99</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========== MAIN CONTENT ========== -->
+    <main class="page-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Get in <span class="highlight">Touch</span></h1>
+                <p>Have a question, need help with your book, or want to share feedback? We're here for you.</p>
+            </div>
+
+            <div class="contact-grid">
+                <!-- Contact Information -->
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <span class="contact-icon">📧</span>
+                        <h3>Email Us</h3>
+                        <p><a href="mailto:ritemasta@gmail.com">ritemasta@gmail.com</a></p>
+                        <span class="label gold">Fast Response</span>
+                    </div>
+                    <div class="contact-card">
+                        <span class="contact-icon">📞</span>
+                        <h3>Complaints Hotline</h3>
+                        <p><a href="tel:+233249845856">+233 249 845 856</a></p>
+                        <p><a href="tel:+233500119195">+233 500 119 195</a></p>
+                        <span class="label green">Available 24/7</span>
+                    </div>
+                    <div class="contact-card">
+                        <span class="contact-icon">💬</span>
+                        <h3>WhatsApp</h3>
+                        <p><a href="https://wa.me/233249845856" target="_blank">+233 249 845 856</a></p>
+                        <span class="label whatsapp">Click to Chat</span>
+                        <p style="font-size:0.8rem; margin-top:0.5rem; color:#6a5a4a;">
+                            <small>For payment verification & support</small>
+                        </p>
+                    </div>
+                    <div class="contact-card">
+                        <span class="contact-icon">🏢</span>
+                        <h3>Business Registration</h3>
+                        <p><strong>BN:</strong> BN360822013</p>
+                        <p><strong>TIN:</strong> P0002032406</p>
+                        <p style="font-size:0.8rem; color:#8a7a6a; margin-top:0.3rem;">Registered under Ghana Business Names Act, 1962 (NO. 151)</p>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <h3>Send us a message</h3>
+                    <p class="subtitle">We'll get back to you within 24 hours.</p>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">Your Name</label>
+                                <input type="text" id="name" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" placeholder="Enter your email address" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject">
+                                <option value="general">General Inquiry</option>
+                                <option value="complaint">Complaint</option>
+                                <option value="support">Technical Support</option>
+                                <option value="purchase">Purchase / Unlock Code</option>
+                                <option value="feedback">Feedback / Suggestion</option>
+                                <option value="partnership">Partnership</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" rows="5" placeholder="Write your message here..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-large" style="width:100%;">
+                            Send Message →
+                        </button>
+                    </form>
+                    <div id="formStatus" class="form-status"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <span style="font-size:1.8rem; color:#f4a261;">✦</span>
+                        <span>Ritemasta<span class="logo-accent">Pro</span></span>
+                    </div>
+                    <p class="footer-desc">Premium book publishing suite for independent authors and creators. Write, format, and publish with professional tools.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="upload.html">Upload</a></li>
+                        <li><a href="editor.html">Editor</a></li>
+                        <li><a href="settings.html">Settings</a></li>
+                        <li><a href="layout.html">Layout</a></li>
+                        <li><a href="export.html">Export</a></li>
+                        <li><a href="save.html">Save</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:ritemasta@gmail.com">✉️ ritemasta@gmail.com</a></li>
+                        <li><a href="tel:+233249845856">📞 +233 249 845 856</a></li>
+                        <li><a href="tel:+233500119195">📞 +233 500 119 195</a></li>
+                        <li><a href="https://wa.me/233249845856" target="_blank">💬 WhatsApp</a></li>
+                        <li><a href="contact.html">📝 Contact Form</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><strong>Business Registration No:</strong> BN360822013</li>
+                        <li><strong>TIN:</strong> P0002032406</li>
+                        <li><strong>Registered under:</strong> Ghana Business Names Act, 1962 (NO. 151)</li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ritemasta Pro. All rights reserved. | Built with ❤️ for independent authors.</p>
+                <p class="footer-disclaimer"><small>Complaints hotline: +233 249 845 856 / +233 500 119 195 | Email: ritemasta@gmail.com | WhatsApp: +233 249 845 856</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== JAVASCRIPT ========== -->
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const status = document.getElementById('formStatus');
+            status.className = 'form-status success';
+            status.textContent = '✅ Thank you! Your message has been sent. We will get back to you within 24 hours.';
+            this.reset();
+            setTimeout(() => {
+                status.className = 'form-status';
+            }, 5000);
+        });
+    </script>
+
+</body>
+</html>
