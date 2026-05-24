@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – Ritemasta Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-icon">✦</span>
+                <span>Ritemasta<span class="logo-accent">Pro</span></span>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="upload.html" class="nav-link">Upload</a>
+                <a href="editor.html" class="nav-link">Editor</a>
+                <a href="settings.html" class="nav-link">Settings</a>
+                <a href="layout.html" class="nav-link">Layout</a>
+                <a href="export.html" class="nav-link export-link">Export</a>
+                <a href="save.html" class="nav-link">Save</a>
+                <a href="contact.html" class="nav-link contact-link">Contact</a>
+                <a href="admin.html" class="nav-link active">Admin</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="container">
+            <!-- LOGIN SECTION -->
+            <div id="loginContainer" class="admin-login-box">
+                <div class="admin-login-icon">🔐</div>
+                <h2>Admin Login</h2>
+                <p>Enter your admin password to access the code generator.</p>
+                <div class="login-form">
+                    <input type="password" id="adminPassword" placeholder="Enter admin password" onkeydown="if(event.key==='Enter') login()">
+                    <button class="btn btn-primary btn-large" onclick="login()">Login</button>
+                    <div id="loginError" class="error-message">Incorrect password. Please try again.</div>
+                </div>
+            </div>
+
+            <!-- ADMIN CONTENT -->
+            <div id="adminContainer" class="admin-container hidden">
+                <div class="admin-header">
+                    <h1>🔑 Code Generator</h1>
+                    <p>Generate and manage license codes for users.</p>
+                </div>
+
+                <div class="admin-card">
+                    <h2>📝 Generate New Code</h2>
+                    <p class="admin-card-desc">Generate a unique license code for a user who has paid via crypto.</p>
+                    <div class="code-display" id="codeDisplay">Click "Generate" to create a new code</div>
+                    <div class="code-actions">
+                        <button class="btn btn-primary" onclick="generateCode()">✨ Generate New Code</button>
+                        <button class="btn btn-secondary" onclick="copyCode()">📋 Copy Code</button>
+                        <button class="btn btn-green" onclick="markAsSent()">✅ Mark as Sent</button>
+                    </div>
+                    <div class="code-status" id="codeStatus">No code generated yet</div>
+                </div>
+
+                <div class="admin-card">
+                    <h2>📋 Issued Codes</h2>
+                    <div class="table-wrapper">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Status</th>
+                                    <th>User</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="codeTableBody">
+                                <tr>
+                                    <td colspan="5" class="empty-state">No codes issued yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <h2>💰 Crypto Payment Addresses</h2>
+                    <div class="address-box">
+                        <div class="address-item">
+                            <strong>ETH / BNB:</strong>
+                            <code>0x161caE357e1C08022A07b79F124fA395F24bE053</code>
+                            <button class="btn-small" onclick="copyAddress('0x161caE357e1C08022A07b79F124fA395F24bE053', this)">Copy</button>
+                        </div>
+                        <div class="address-item">
+                            <strong>SOL:</strong>
+                            <code>YoxQ94taomLRs7wsDcDYL1NDjBenpcrVNMCmNp1m7yQ</code>
+                            <button class="btn-small" onclick="copyAddress('YoxQ94taomLRs7wsDcDYL1NDjBenpcrVNMCmNp1m7yQ', this)">Copy</button>
+                        </div>
+                        <div class="address-item">
+                            <strong>BTC:</strong>
+                            <code>bc1qr0xfzkelhz3xpf53h57ew5uks5hsqkjwwavuzx</code>
+                            <button class="btn-small" onclick="copyAddress('bc1qr0xfzkelhz3xpf53h57ew5uks5hsqkjwwavuzx', this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-footer">
+                    <button class="btn btn-secondary" onclick="logout()">🚪 Logout</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <span class="logo-icon">✦</span>
+                        <span>Ritemasta<span class="logo-accent">Pro</span></span>
+                    </div>
+                    <p class="footer-desc">Premium book publishing suite for independent authors and creators.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="upload.html">Upload</a></li>
+                        <li><a href="editor.html">Editor</a></li>
+                        <li><a href="settings.html">Settings</a></li>
+                        <li><a href="layout.html">Layout</a></li>
+                        <li><a href="export.html">Export</a></li>
+                        <li><a href="save.html">Save</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact & Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:ritemasta@gmail.com">✉️ ritemasta@gmail.com</a></li>
+                        <li><a href="tel:+233249845856">📞 +233 249 845 856</a></li>
+                        <li><a href="tel:+233500119195">📞 +233 500 119 195</a></li>
+                        <li><a href="contact.html">📝 Contact Form</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><strong>BN:</strong> BN360822013</li>
+                        <li><strong>TIN:</strong> P0002032406</li>
+                        <li>Ghana Business Names Act, 1962</li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Ritemasta Pro. All rights reserved.</p>
+                <p class="footer-disclaimer"><small>Complaints hotline: +233 249 845 856 / +233 500 119 195 | ritemasta@gmail.com</small></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================================
+        //  ADMIN PASSWORD (CHANGE THIS!)
+        // ============================================================
+        const ADMIN_PASSWORD = 'Ritemasta2026';
+
+        let codes = [];
+        let currentCode = null;
+
+        // ============================================================
+        //  LOAD/SAVE CODES
+        // ============================================================
+        function loadCodes() {
+            const saved = localStorage.getItem('ritemasta_codes');
+            if (saved) {
+                try {
+                    codes = JSON.parse(saved);
+                } catch(e) {
+                    codes = [];
+                }
+            }
+        }
+
+        function saveCodes() {
+            localStorage.setItem('ritemasta_codes', JSON.stringify(codes));
+            // Update valid codes list for unlock verification
+            const validCodes = codes
+                .filter(c => c.status === 'active' || c.status === 'sent')
+                .map(c => c.code);
+            localStorage.setItem('ritemasta_valid_codes', JSON.stringify(validCodes));
+        }
+
+        // ============================================================
+        //  LOGIN
+        // ============================================================
+        function login() {
+            const password = document.getElementById('adminPassword').value;
+            const errorEl = document.getElementById('loginError');
+
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('adminContainer').style.display = 'block';
+                loadCodes();
+                renderCodes();
+                sessionStorage.setItem('admin_logged_in', 'true');
+                errorEl.style.display = 'none';
+            } else {
+                errorEl.style.display = 'block';
+                setTimeout(() => {
+                    errorEl.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // ============================================================
+        //  CODE GENERATION
+        // ============================================================
+        function generateCode() {
+            const prefix = 'RITEMASTA';
+            const year = new Date().getFullYear();
+            const part1 = Math.random().toString(36).substring(2, 6).toUpperCase();
+            const part2 = Math.random().toString(36).substring(2, 6).toUpperCase();
+            const part3 = Math.random().toString(36).substring(2, 4).toUpperCase();
+
+            const code = `${prefix}-${year}-${part1}-${part2}-${part3}`;
+            currentCode = code;
+
+            document.getElementById('codeDisplay').textContent = code;
+            document.getElementById('codeStatus').textContent = '🟢 New code generated. Copy and send to user.';
+            document.getElementById('codeStatus').style.color = '#2a9d8f';
+        }
+
+        function copyCode() {
+            if (!currentCode) {
+                alert('Generate a code first!');
+                return;
+            }
+            navigator.clipboard.writeText(currentCode).then(() => {
+                alert('Code copied to clipboard!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = currentCode;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('Code copied to clipboard!');
+            });
+        }
+
+        function markAsSent() {
+            if (!currentCode) {
+                alert('Generate a code first!');
+                return;
+            }
+            if (codes.find(c => c.code === currentCode)) {
+                alert('This code is already in the system.');
+                return;
+            }
+            codes.push({
+                code: currentCode,
+                status: 'sent',
+                user: 'Pending',
+                date: new Date().toLocaleDateString()
+            });
+            saveCodes();
+            renderCodes();
+            document.getElementById('codeStatus').textContent = '✅ Code marked as sent.';
+            document.getElementById('codeStatus').style.color = '#2a9d8f';
+            currentCode = null;
+            document.getElementById('codeDisplay').textContent = 'Click "Generate" to create a new code';
+        }
+
+        // ============================================================
+        //  RENDER CODES TABLE
+        // ============================================================
+        function renderCodes() {
+            const tbody = document.getElementById('codeTableBody');
+
+            if (codes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="empty-state">No codes issued yet</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = codes.map(c => `
+                <tr>
+                    <td><code class="code-display-small">${c.code}</code></td>
+                    <td>
+                        <span class="status-badge ${c.status}">
+                            ${c.status.charAt(0).toUpperCase() + c.status.slice(1)}
+                        </span>
+                    </td>
+                    <td>${c.user || '—'}</td>
+                    <td>${c.date}</td>
+                    <td class="action-cell">
+                        <button class="btn-small btn-green" onclick="markUsed('${c.code}')">Mark Used</button>
+                        <button class="btn-small btn-danger" onclick="deleteCode('${c.code}')">Delete</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function markUsed(code) {
+            const idx = codes.findIndex(c => c.code === code);
+            if (idx >= 0) {
+                codes[idx].status = 'used';
+                saveCodes();
+                renderCodes();
+            }
+        }
+
+        function deleteCode(code) {
+            if (!confirm('Delete this code?')) return;
+            codes = codes.filter(c => c.code !== code);
+            saveCodes();
+            renderCodes();
+        }
+
+        // ============================================================
+        //  COPY ADDRESS
+        // ============================================================
+        function copyAddress(address, btn) {
+            navigator.clipboard.writeText(address).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            }).catch(() => {
+                // Fallback
+                const textarea = document.createElement('textarea');
+                textarea.value = address;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        // ============================================================
+        //  LOGOUT
+        // ============================================================
+        function logout() {
+            sessionStorage.removeItem('admin_logged_in');
+            location.reload();
+        }
+
+        // ============================================================
+        //  INIT – Auto-login if session exists
+        // ============================================================
+        if (sessionStorage.getItem('admin_logged_in') === 'true') {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('adminContainer').style.display = 'block';
+            loadCodes();
+            renderCodes();
+        }
+    </script>
+</body>
+</html>
