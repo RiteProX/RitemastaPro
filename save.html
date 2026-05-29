@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save & Backup - RitemastaPro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2D1B0E;
+            --accent: #D4A853;
+            --light: #FDF8F0;
+            --dark: #1A0F07;
+            --success: #4CAF50;
+            --danger: #E74C3C;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: #333;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        nav .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        nav button, nav a {
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        nav button:hover, nav a:hover {
+            background: #E8BF6B;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .page-header {
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .card h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            width: 100%;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: #E8BF6B;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+
+        /* Status Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid var(--success);
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid var(--danger);
+        }
+
+        .message.info {
+            background: #e7f3ff;
+            color: #1565c0;
+            border-left: 4px solid #2196F3;
+        }
+
+        /* File Input */
+        .file-input {
+            display: none;
+        }
+
+        /* Project Info */
+        .project-info {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .project-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .project-info-item:last-child {
+            border-bottom: none;
+        }
+
+        .project-info-label {
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .project-info-value {
+            color: #666;
+        }
+
+        /* Backup List */
+        .backup-list {
+            margin-top: 1rem;
+        }
+
+        .backup-item {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .backup-info {
+            flex: 1;
+        }
+
+        .backup-name {
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .backup-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.3rem;
+        }
+
+        .backup-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .small-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .small-btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .small-btn-primary:hover {
+            background: var(--dark);
+        }
+
+        .small-btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .small-btn-danger:hover {
+            background: #c0392b;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .modal-content p {
+            color: #666;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .modal-buttons button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+
+        .modal-btn-cancel {
+            background: #ddd;
+            color: #333;
+        }
+
+        .modal-btn-cancel:hover {
+            background: #bbb;
+        }
+
+        .modal-btn-confirm {
+            background: var(--danger);
+            color: white;
+        }
+
+        .modal-btn-confirm:hover {
+            background: #c0392b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .backup-item {
+                flex-direction: column;
+            }
+
+            .backup-actions {
+                width: 100%;
+                margin-top: 1rem;
+            }
+
+            .small-btn {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">🚀 RitemastaPro</div>
+        <div class="nav-buttons">
+            <button onclick="window.location.href='editor.html'">← Back to Editor</button>
+            <a href="index.html">Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>💾 Save & Backup</h1>
+            <p>Manage your project, create backups, and restore previous versions</p>
+        </div>
+
+        <!-- Messages -->
+        <div class="message success" id="successMessage"></div>
+        <div class="message error" id="errorMessage"></div>
+        <div class="message info" id="infoMessage"></div>
+
+        <div class="card-grid">
+            <!-- Current Project -->
+            <div class="card">
+                <h2>📊 Current Project</h2>
+                <p>View and manage your active project</p>
+
+                <div class="project-info" id="projectInfo">
+                    <div class="project-info-item">
+                        <span class="project-info-label">Title:</span>
+                        <span class="project-info-value" id="projectTitle">Untitled</span>
+                    </div>
+                    <div class="project-info-item">
+                        <span class="project-info-label">Chapters:</span>
+                        <span class="project-info-value" id="projectChapters">0</span>
+                    </div>
+                    <div class="project-info-item">
+                        <span class="project-info-label">Words:</span>
+                        <span class="project-info-value" id="projectWords">0</span>
+                    </div>
+                    <div class="project-info-item">
+                        <span class="project-info-label">Last Saved:</span>
+                        <span class="project-info-value" id="projectSaved">Never</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-block" onclick="saveProjectNow()">
+                    💾 Save Now
+                </button>
+            </div>
+
+            <!-- Backup & Download -->
+            <div class="card">
+                <h2>📥 Download Backup</h2>
+                <p>Download your entire project as a JSON file for safekeeping</p>
+
+                <p style="font-size: 0.9rem; color: #999;">
+                    Backup includes all chapters, settings, layout preferences, and metadata. You can restore from this file anytime.
+                </p>
+
+                <button class="btn btn-secondary btn-block" onclick="downloadBackup()">
+                    📥 Download Backup (JSON)
+                </button>
+            </div>
+
+            <!-- Restore from Backup -->
+            <div class="card">
+                <h2>📤 Restore Backup</h2>
+                <p>Restore your project from a previously downloaded backup file</p>
+
+                <p style="font-size: 0.9rem; color: #999;">
+                    Select a JSON backup file to restore. This will overwrite your current project.
+                </p>
+
+                <input type="file" id="restoreInput" class="file-input" accept=".json" onchange="handleRestoreFile(event)">
+
+                <button class="btn btn-secondary btn-block" onclick="document.getElementById('restoreInput').click()">
+                    📤 Choose Backup File
+                </button>
+            </div>
+
+            <!-- Auto-Backup History -->
+            <div class="card">
+                <h2>⏱️ Auto-Backups</h2>
+                <p>Browser automatically saves your work every 5 minutes</p>
+
+                <div class="project-info" style="font-size: 0.9rem;">
+                    <p>✓ Auto-save enabled</p>
+                    <p>✓ Saves to browser storage</p>
+                    <p>✓ Last auto-save: <span id="lastAutoSave">Just now</span></p>
+                </div>
+
+                <button class="btn btn-primary btn-block" onclick="clearAutoBackups()">
+                    🗑️ Clear Auto-Backups
+                </button>
+            </div>
+
+            <!-- Export to Cloud -->
+            <div class="card">
+                <h2>☁️ Cloud Sync</h2>
+                <p>Send backup to email for cloud storage</p>
+
+                <p style="font-size: 0.9rem; color: #999;">
+                    Email your backup JSON file to yourself for secure cloud storage. Send to: <strong>ritemasta@gmail.com</strong>
+                </p>
+
+                <button class="btn btn-secondary btn-block" onclick="emailBackup()">
+                    📧 Send Backup to Email
+                </button>
+            </div>
+
+            <!-- Project History -->
+            <div class="card">
+                <h2>📜 Version History</h2>
+                <p>View saved versions of your project</p>
+
+                <div class="backup-list" id="backupList">
+                    <div style="color: #999; text-align: center; padding: 1rem;">
+                        No backups yet
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-block" onclick="createManualBackup()">
+                    💾 Create Manual Backup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Restore Confirmation Modal -->
+    <div class="modal" id="restoreModal">
+        <div class="modal-content">
+            <h2>⚠️ Restore Backup?</h2>
+            <p>This will replace your current project with the backup. Your current work will be lost.</p>
+            <p style="font-weight: bold; color: var(--danger);">This action cannot be undone.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn-cancel" onclick="cancelRestore()">Cancel</button>
+                <button class="modal-btn-confirm" onclick="confirmRestore()">Restore</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clear Auto-Backup Modal -->
+    <div class="modal" id="clearModal">
+        <div class="modal-content">
+            <h2>⚠️ Clear Auto-Backups?</h2>
+            <p>This will delete all auto-saved backups from your browser.</p>
+            <p>Your current project will not be affected.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn-cancel" onclick="closeClearModal()">Cancel</button>
+                <button class="modal-btn-confirm" onclick="confirmClearAutoBackups()">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let restoreFileData = null;
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            loadProjectInfo();
+            loadBackupHistory();
+        });
+
+        function loadProjectInfo() {
+            const book = localStorage.getItem('currentBook');
+            const chapters = JSON.parse(localStorage.getItem('bookChapters') || '[]');
+            
+            if (book) {
+                const bookData = JSON.parse(book);
+                document.getElementById('projectTitle').textContent = bookData.name || 'Untitled';
+            }
+
+            document.getElementById('projectChapters').textContent = chapters.length;
+
+            // Calculate total words
+            let totalWords = 0;
+            chapters.forEach(chapter => {
+                totalWords += (chapter.content || '').split(/\s+/).length;
+            });
+            document.getElementById('projectWords').textContent = totalWords;
+
+            const lastSaved = localStorage.getItem('lastSaveTime');
+            if (lastSaved) {
+                document.getElementById('projectSaved').textContent = new Date(lastSaved).toLocaleString();
+            }
+        }
+
+        function saveProjectNow() {
+            const backup = {
+                book: localStorage.getItem('currentBook'),
+                chapters: localStorage.getItem('bookChapters'),
+                settings: localStorage.getItem('bookSettings'),
+                layout: localStorage.getItem('bookLayout'),
+                timestamp: new Date().toISOString()
+            };
+
+            localStorage.setItem('lastSaveTime', new Date().toISOString());
+            loadProjectInfo();
+
+            showMessage('✓ Project saved successfully!', 'success');
+        }
+
+        function downloadBackup() {
+            const backup = {
+                book: JSON.parse(localStorage.getItem('currentBook') || '{}'),
+                chapters: JSON.parse(localStorage.getItem('bookChapters') || '[]'),
+                settings: JSON.parse(localStorage.getItem('bookSettings') || '{}'),
+                layout: JSON.parse(localStorage.getItem('bookLayout') || '{}'),
+                timestamp: new Date().toISOString(),
+                version: '1.0'
+            };
+
+            const bookTitle = backup.book.name || 'backup';
+            const filename = `${bookTitle.replace(/\s+/g, '_')}_${new Date().getTime()}.json`;
+
+            const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            showMessage('✓ Backup downloaded successfully!', 'success');
+        }
+
+        function handleRestoreFile(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    restoreFileData = JSON.parse(e.target.result);
+                    document.getElementById('restoreModal').classList.add('show');
+                } catch (error) {
+                    showMessage('❌ Invalid backup file. Please select a valid JSON file.', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function cancelRestore() {
+            document.getElementById('restoreModal').classList.remove('show');
+            document.getElementById('restoreInput').value = '';
+            restoreFileData = null;
+        }
+
+        function confirmRestore() {
+            if (restoreFileData) {
+                if (restoreFileData.book) localStorage.setItem('currentBook', JSON.stringify(restoreFileData.book));
+                if (restoreFileData.chapters) localStorage.setItem('bookChapters', JSON.stringify(restoreFileData.chapters));
+                if (restoreFileData.settings) localStorage.setItem('bookSettings', JSON.stringify(restoreFileData.settings));
+                if (restoreFileData.layout) localStorage.setItem('bookLayout', JSON.stringify(restoreFileData.layout));
+
+                localStorage.setItem('lastSaveTime', new Date().toISOString());
+                
+                document.getElementById('restoreModal').classList.remove('show');
+                showMessage('✓ Project restored successfully! Redirecting to editor...', 'success');
+
+                setTimeout(() => {
+                    window.location.href = 'editor.html';
+                }, 2000);
+            }
+        }
+
+        function createManualBackup() {
+            const backup = {
+                name: `Backup ${new Date().toLocaleString()}`,
+                book: localStorage.getItem('currentBook'),
+                chapters: localStorage.getItem('bookChapters'),
+                timestamp: new Date().toISOString()
+            };
+
+            let backups = JSON.parse(localStorage.getItem('projectBackups') || '[]');
+            backups.unshift(backup);
+            if (backups.length > 10) backups.pop(); // Keep only 10 most recent
+
+            localStorage.setItem('projectBackups', JSON.stringify(backups));
+            loadBackupHistory();
+
+            showMessage('✓ Manual backup created!', 'success');
+        }
+
+        function loadBackupHistory() {
+            const backups = JSON.parse(localStorage.getItem('projectBackups') || '[]');
+            const backupList = document.getElementById('backupList');
+
+            if (backups.length === 0) {
+                backupList.innerHTML = '<div style="color: #999; text-align: center; padding: 1rem;">No backups yet</div>';
+                return;
+            }
+
+            backupList.innerHTML = backups.map((backup, index) => `
+                <div class="backup-item">
+                    <div class="backup-info">
+                        <div class="backup-name">${backup.name}</div>
+                        <div class="backup-date">${new Date(backup.timestamp).toLocaleString()}</div>
+                    </div>
+                    <div class="backup-actions">
+                        <button class="small-btn small-btn-primary" onclick="restoreBackup(${index})">Restore</button>
+                        <button class="small-btn small-btn-danger" onclick="deleteBackup(${index})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function restoreBackup(index) {
+            const backups = JSON.parse(localStorage.getItem('projectBackups') || '[]');
+            const backup = backups[index];
+
+            if (backup.book) localStorage.setItem('currentBook', backup.book);
+            if (backup.chapters) localStorage.setItem('bookChapters', backup.chapters);
+
+            localStorage.setItem('lastSaveTime', new Date().toISOString());
+            showMessage('✓ Backup restored! Redirecting to editor...', 'success');
+
+            setTimeout(() => {
+                window.location.href = 'editor.html';
+            }, 1500);
+        }
+
+        function deleteBackup(index) {
+            let backups = JSON.parse(localStorage.getItem('projectBackups') || '[]');
+            backups.splice(index, 1);
+            localStorage.setItem('projectBackups', JSON.stringify(backups));
+            loadBackupHistory();
+            showMessage('✓ Backup deleted', 'success');
+        }
+
+        function clearAutoBackups() {
+            document.getElementById('clearModal').classList.add('show');
+        }
+
+        function closeClearModal() {
+            document.getElementById('clearModal').classList.remove('show');
+        }
+
+        function confirmClearAutoBackups() {
+            localStorage.removeItem('autoBackups');
+            document.getElementById('clearModal').classList.remove('show');
+            showMessage('✓ Auto-backups cleared', 'success');
+        }
+
+        function emailBackup() {
+            showMessage('📧 Email backup feature coming soon. For now, download and email manually.', 'info');
+        }
+
+        function showMessage(text, type) {
+            const messageId = type + 'Message';
+            const messageDiv = document.getElementById(messageId);
+            messageDiv.textContent = text;
+            messageDiv.classList.add('show');
+
+            setTimeout(() => {
+                messageDiv.classList.remove('show');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - RitemastaPro</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2D1B0E;
+            --accent: #D4A853;
+            --light: #FDF8F0;
+            --dark: #1A0F07;
+            --success: #4CAF50;
+            --danger: #E74C3C;
+            --warning: #F39C12;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--light), white);
+            color: #333;
+            height: 100vh;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+        }
+
+        .login-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .login-card h1 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .login-card p {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .login-form input {
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.1);
+        }
+
+        .login-form button {
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .login-form button:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .login-error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .login-error.show {
+            display: block;
+        }
+
+        /* Admin Dashboard */
+        .admin-dashboard {
+            display: none;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .admin-dashboard.show {
+            display: flex;
+        }
+
+        /* Header */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        header button {
+            background: var(--danger);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        header button:hover {
+            background: #c0392b;
+        }
+
+        /* Main Content */
+        .admin-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .admin-nav {
+            width: 250px;
+            background: white;
+            border-right: 1px solid #ddd;
+            padding: 1.5rem 0;
+            overflow-y: auto;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+        }
+
+        .nav-item {
+            padding: 1rem 1.5rem;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .nav-item:hover {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: #f0f0f0;
+            border-left-color: var(--accent);
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Main Panel */
+        .admin-panel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            display: none;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .panel-header {
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+
+        .panel-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-header p {
+            color: #666;
+        }
+
+        /* Code Generator */
+        .code-generator {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .code-generator h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.1);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: #E8BF6B;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #45a049;
+        }
+
+        /* Code Display */
+        .code-display {
+            background: var(--light);
+            border: 2px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .code-display.show {
+            display: block;
+        }
+
+        .code-display h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .code-box {
+            background: white;
+            padding: 1rem;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-align: center;
+            color: var(--primary);
+            margin: 0.5rem 0;
+            border: 2px solid var(--accent);
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Table */
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: var(--light);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-used {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-revoked {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Analytics */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-top: 4px solid var(--accent);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid var(--success);
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-content {
+                flex-direction: column;
+            }
+
+            .admin-nav {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+                display: flex;
+                overflow-x: auto;
+                max-height: 60px;
+            }
+
+            .nav-item {
+                white-space: nowrap;
+                padding: 1rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-card">
+            <h1>🔐 Admin Panel</h1>
+            <p>RitemastaPro Access Pass Management</p>
+
+            <div class="login-error" id="loginError"></div>
+
+            <div class="login-form">
+                <input type="password" id="adminPassword" placeholder="Enter admin password" onkeypress="if(event.key==='Enter') login()">
+                <button onclick="login()">Login</button>
+            </div>
+
+            <p style="color: #999; font-size: 0.85rem; margin-top: 1.5rem;">
+                Admin password: Check your secure notes
+            </p>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-dashboard" id="adminDashboard">
+        <!-- Header -->
+        <header>
+            <h1>🔐 Admin Panel</h1>
+            <button onclick="logout()">Logout</button>
+        </header>
+
+        <!-- Main Content -->
+        <div class="admin-content">
+            <!-- Sidebar Navigation -->
+            <div class="admin-nav">
+                <div class="nav-item active" onclick="showPanel('dashboard')">📊 Dashboard</div>
+                <div class="nav-item" onclick="showPanel('generator')">🔑 Generate Codes</div>
+                <div class="nav-item" onclick="showPanel('codes')">📋 Manage Codes</div>
+                <div class="nav-item" onclick="showPanel('analytics')">📈 Analytics</div>
+                <div class="nav-item" onclick="showPanel('settings')">⚙️ Settings</div>
+            </div>
+
+            <!-- Panel: Dashboard -->
+            <div class="admin-panel active" id="panel-dashboard">
+                <div class="panel-header">
+                    <h2>📊 Dashboard</h2>
+                    <p>Overview of Access Pass codes and sales</p>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Active Codes</div>
+                        <div class="stat-number" id="statActive">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Used Codes</div>
+                        <div class="stat-number" id="statUsed">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Revenue</div>
+                        <div class="stat-number" id="statRevenue">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Generated</div>
+                        <div class="stat-number" id="statTotal">0</div>
+                    </div>
+                </div>
+
+                <div class="message success" id="dashboardMessage" style="display: block;">
+                    ✓ Welcome to RitemastaPro Admin Panel. You can generate, manage, and track access codes here.
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Customer</th>
+                                <th>Payment Method</th>
+                                <th>Amount</th>
+                                <th>Generated</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentCodesTable">
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #999;">No codes generated yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Panel: Code Generator -->
+            <div class="admin-panel" id="panel-generator">
+                <div class="panel-header">
+                    <h2>🔑 Generate Access Codes</h2>
+                    <p>Create new access pass codes for customers</p>
+                </div>
+
+                <div class="code-generator">
+                    <h3>Generate New Code</h3>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Customer Email/Name *</label>
+                            <input type="text" id="customerEmail" placeholder="customer@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Payment Method *</label>
+                            <select id="paymentMethod">
+                                <option value="">-- Select --</option>
+                                <option value="mobile-money">Mobile Money (MTN)</option>
+                                <option value="telecel">Mobile Money (Telecel)</option>
+                                <option value="ethereum">Ethereum / BNB</option>
+                                <option value="solana">Solana</option>
+                                <option value="bitcoin">Bitcoin</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Amount Paid ($) *</label>
+                            <input type="number" id="amountPaid" placeholder="49.99" value="49.99" step="0.01">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Notes</label>
+                            <input type="text" id="notes" placeholder="Optional notes">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="generateCode()">Generate Code</button>
+
+                    <div class="code-display" id="codeDisplay">
+                        <h4>✅ Code Generated!</h4>
+                        <p>Share this code with the customer:</p>
+                        <div class="code-box" id="generatedCode"></div>
+                        <button class="copy-btn" onclick="copyCode()">📋 Copy Code</button>
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 1rem;">
+                            Send via WhatsApp or email. Code is valid until used.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: Manage Codes -->
+            <div class="admin-panel" id="panel-codes">
+                <div class="panel-header">
+                    <h2>📋 Manage Access Codes</h2>
+                    <p>View, revoke, and manage generated codes</p>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Customer</th>
+                                <th>Payment</th>
+                                <th>Amount</th>
+                                <th>Generated</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="codesTable">
+                            <tr>
+                                <td colspan="7" style="text-align: center; color: #999;">No codes yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Panel: Analytics -->
+            <div class="admin-panel" id="panel-analytics">
+                <div class="panel-header">
+                    <h2>📈 Analytics</h2>
+                    <p>Sales and code usage statistics</p>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">This Week</div>
+                        <div class="stat-number" id="weekRevenue">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">This Month</div>
+                        <div class="stat-number" id="monthRevenue">$0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Conversion Rate</div>
+                        <div class="stat-number" id="conversionRate">0%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Avg Order Value</div>
+                        <div class="stat-number" id="avgOrder">$49.99</div>
+                    </div>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Payment Methods Used</h3>
+                    <div id="paymentMethodStats" style="color: #666;">
+                        <p>No data yet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel: Settings -->
+            <div class="admin-panel" id="panel-settings">
+                <div class="panel-header">
+                    <h2>⚙️ Settings</h2>
+                    <p>Manage admin settings and preferences</p>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 2rem;">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Change Admin Password</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Current Password</label>
+                            <input type="password" id="currentPass" placeholder="">
+                        </div>
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="newPass" placeholder="">
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="changePassword()">Update Password</button>
+                </div>
+
+                <div style="background: white; padding: 2rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">Export Data</h3>
+                    <p style="color: #666; margin-bottom: 1rem;">Download all codes and sales data as JSON</p>
+                    <button class="btn btn-primary" onclick="exportData()">📥 Export Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const ADMIN_PASSWORD = 'RiteLuxi26';
+
+        // Initialize
+        window.addEventListener('load', () => {
+            checkLogin();
+            loadCodes();
+            updateStats();
+        });
+
+        function login() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                localStorage.setItem('adminLoggedIn', 'true');
+                showDashboard();
+            } else {
+                const error = document.getElementById('loginError');
+                error.textContent = '❌ Invalid password';
+                error.classList.add('show');
+            }
+        }
+
+        function checkLogin() {
+            if (localStorage.getItem('adminLoggedIn') === 'true') {
+                showDashboard();
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('adminDashboard').classList.add('show');
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('adminLoggedIn');
+                location.reload();
+            }
+        }
+
+        function showPanel(panelName) {
+            // Hide all panels
+            document.querySelectorAll('.admin-panel').forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            // Remove active from nav
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Show selected panel
+            document.getElementById('panel-' + panelName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (panelName === 'codes') {
+                loadCodesTable();
+            } else if (panelName === 'analytics') {
+                updateAnalytics();
+            }
+        }
+
+        function generateCode() {
+            const customer = document.getElementById('customerEmail').value;
+            const method = document.getElementById('paymentMethod').value;
+            const amount = document.getElementById('amountPaid').value;
+
+            if (!customer || !method || !amount) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            // Generate unique code
+            const code = 'RP' + Math.random().toString(36).substring(2, 12).toUpperCase();
+
+            // Save code
+            const codeObj = {
+                code: code,
+                customer: customer,
+                method: method,
+                amount: amount,
+                notes: document.getElementById('notes').value,
+                generated: new Date().toLocaleString(),
+                used: false
+            };
+
+            let codes = JSON.parse(localStorage.getItem('accessCodes') || '[]');
+            codes.push(codeObj);
+            localStorage.setItem('accessCodes', JSON.stringify(codes));
+
+            // Display code
+            document.getElementById('generatedCode').textContent = code;
+            document.getElementById('codeDisplay').classList.add('show');
+
+            // Reset form
+            document.getElementById('customerEmail').value = '';
+            document.getElementById('paymentMethod').value = '';
+            document.getElementById('notes').value = '';
+
+            updateStats();
+        }
+
+        function copyCode() {
+            const code = document.getElementById('generatedCode').textContent;
+            navigator.clipboard.writeText(code);
+            alert('✓ Code copied!');
+        }
+
+        function loadCodes() {
+            const codes = JSON.parse(localStorage.getItem('accessCodes') || '[]');
+            const recentCodes = codes.slice(-5).reverse();
+
+            const tbody = document.getElementById('recentCodesTable');
+            if (recentCodes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999;">No codes yet</td></tr>';
+            } else {
+                tbody.innerHTML = recentCodes.map(c => `
+                    <tr>
+                        <td><strong>${c.code}</strong></td>
+                        <td>${c.customer}</td>
+                        <td>${c.method}</td>
+                        <td>$${c.amount}</td>
+                        <td>${c.generated}</td>
+                        <td><span class="status-badge ${c.used ? 'status-used' : 'status-active'}">${c.used ? 'Used' : 'Active'}</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function loadCodesTable() {
+            const codes = JSON.parse(localStorage.getItem('accessCodes') || '[]');
+            const tbody = document.getElementById('codesTable');
+
+            if (codes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: #999;">No codes yet</td></tr>';
+            } else {
+                tbody.innerHTML = codes.reverse().map((c, i) => `
+                    <tr>
+                        <td><strong>${c.code}</strong></td>
+                        <td>${c.customer}</td>
+                        <td>${c.method}</td>
+                        <td>$${c.amount}</td>
+                        <td>${c.generated}</td>
+                        <td><span class="status-badge ${c.used ? 'status-used' : 'status-active'}">${c.used ? 'Used' : 'Active'}</span></td>
+                        <td>
+                            <button class="btn btn-danger" style="padding: 0.5rem 1rem; font-size: 0.85rem;" onclick="revokeCode(${i})">Revoke</button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function revokeCode(index) {
+            if (confirm('Revoke this code?')) {
+                let codes = JSON.parse(localStorage.getItem('accessCodes') || '[]');
+                codes.splice(index, 1);
+                localStorage.setItem('accessCodes', JSON.stringify(codes));
+                loadCodesTable();
+                updateStats();
+            }
+        }
+
+        function updateStats() {
+            const codes = JSON.parse(localStorage.getItem('accessCodes') || '[]');
+            const active = codes.filter(c => !c.used).length;
+            const used = codes.filter(c => c.used).length;
+            const revenue = codes.length * 49.99;
+
+            document.getElementById('statActive').textContent = active;
+            document.getElementById('statUsed').textContent = used;
+            document.getElementById('statRevenue').textContent = '$' + revenue.toFixed(2);
+            document.getElementById('statTotal').textContent = codes.length;
+        }
+
+        function updateAnalytics() {
+            const codes = JSON.parse(localStorage.getItem('accessCodes') || '[]');
+            const now = new Date();
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+
+            const weekRevenue = codes.filter(c => new Date(c.generated) > weekAgo).length * 49.99;
+            const monthRevenue = codes.filter(c => new Date(c.generated) > monthAgo).length * 49.99;
+            const conversionRate = codes.length > 0 ? Math.round((codes.filter(c => c.used).length / codes.length) * 100) : 0;
+
+            document.getElementById('weekRevenue').textContent = '$' + weekRevenue.toFixed(2);
+            document.getElementById('monthRevenue').textContent = '$' + monthRevenue.toFixed(2);
+            document.getElementById('conversionRate').textContent = conversionRate + '%';
+
+            // Payment methods breakdown
+            const methods = {};
+            codes.forEach(c => {
+                methods[c.method] = (methods[c.method] || 0) + 1;
+            });
+
+            const methodsHtml = Object.entries(methods).map(([method, count]) => 
+                `<p>• ${method}: ${count} payments</p>`
+            ).join('');
+
+            document.getElementById('paymentMethodStats').innerHTML = methodsHtml || '<p>No data yet</p>';
+        }
+
+        function changePassword() {
+            alert('Password change feature would connect to backend API');
+        }
+
+        function exportData() {
+            const codes = JSON.parse(localStorage.getItem('accessCodes') || '[]');
+            const data = { codes, exportedAt: new Date().toISOString() };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ritemastapro_codes_${new Date().getTime()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
