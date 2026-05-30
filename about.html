@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Ritemasta – Publishing, Education, Technology, Innovation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #FDF8F0;
+            color: #2D1B0E;
+            line-height: 1.6;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            color: #2D1B0E;
+            letter-spacing: -0.02em;
+        }
+        
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* ===== HEADER (Sticky, Dark) ===== */
+        .header {
+            background: #2D1B0E;
+            padding: 0.8rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+        
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #FDF8F0;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .logo-accent { color: #D4A853; }
+
+        .brand-lockup {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+        }
+
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: #FDF8F0;
+            line-height: 1;
+        }
+
+        .brand-tagline {
+            font-family: 'Inter', sans-serif;
+            color: #D4A853;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: #B8A89A;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        
+        .nav-link:hover { color: #FDF8F0; }
+        .nav-link.active { color: #FDF8F0; background: #4A3728; }
+        .nav-link.highlight { color: #D4A853; font-weight: 700; }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .btn-primary {
+            background: #D4A853;
+            color: #2D1B0E;
+            box-shadow: 0 4px 12px rgba(212, 168, 83, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: #C49A42;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 168, 83, 0.4);
+        }
+        
+        .btn-small { padding: 0.4rem 1.2rem; font-size: 0.85rem; }
+
+        .pulse-btn { animation: pulse 2s infinite; }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 168, 83, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 168, 83, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 168, 83, 0); }
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .page-content {
+            padding: 4rem 1.5rem;
+            background: white;
+            min-height: calc(100vh - 300px);
+        }
+
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-content h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            color: #2D1B0E;
+        }
+
+        .page-content h2 {
+            font-size: 2rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            color: #2D1B0E;
+        }
+
+        .page-content h3 {
+            font-size: 1.4rem;
+            margin-top: 2rem;
+            margin-bottom: 0.8rem;
+            color: #2D1B0E;
+        }
+
+        .page-content p {
+            margin-bottom: 1.2rem;
+            color: #4A3728;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .page-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-content li {
+            margin-bottom: 0.8rem;
+            color: #4A3728;
+            line-height: 1.8;
+        }
+
+        .highlight { color: #D4A853; font-weight: 600; }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #1A0F08;
+            color: #B8A89A;
+            padding: 4rem 1.5rem 1.5rem;
+        }
+        
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 2.5rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .footer-col h4 {
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            color: #FDF8F0;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        
+        .footer-logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #FDF8F0;
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .footer-logo-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .footer-desc { font-size: 0.9rem; line-height: 1.6; max-width: 300px; margin-bottom: 1rem; }
+        
+        .footer-contact { font-size: 0.9rem; line-height: 1.8; }
+        .footer-contact a { color: #D4A853; transition: 0.2s; }
+        .footer-contact a:hover { color: #FDF8F0; }
+        
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.5rem; }
+        .footer-links a { font-size: 0.9rem; transition: 0.2s; }
+        .footer-links a:hover { color: #D4A853; }
+        
+        .footer-bottom {
+            border-top: 1px solid #2D4A5A;
+            padding-top: 1.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6A5A4A;
+        }
+
+        .footer-legal { 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+            font-size: 0.8rem;
+            line-height: 1.8;
+        }
+
+        .legal-item { color: #8A7A6A; }
+        .legal-label { color: #FDF8F0; font-weight: 600; }
+        .legal-value { color: #B8A89A; font-size: 0.9rem; margin-top: 0.25rem; }
+        .legal-subtext { color: #6A5A4A; font-size: 0.8rem; margin-top: 0.25rem; opacity: 0.7; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; align-items: center; }
+            .nav { justify-content: center; }
+            .page-content h1 { font-size: 1.8rem; }
+            .page-content h2 { font-size: 1.4rem; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-legal { grid-template-columns: 1fr; }
+        }
+        
+        @media (max-width: 480px) {
+            .page-content h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="logo.png" alt="Ritemasta Logo">
+                </div>
+                <div class="brand-lockup">
+                    <span class="brand-name">
+                        Ritemasta<span class="logo-accent">Pro</span>
+                    </span>
+                    <span class="brand-tagline">
+                        PUBLISHING | TECHNOLOGY
+                    </span>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="upload.html" class="nav-link">Upload</a>
+                <a href="editor.html" class="nav-link">Editor</a>
+                <a href="layout.html" class="nav-link">Layout</a>
+                <a href="save.html" class="nav-link">Save</a>
+                <a href="export.html" class="nav-link highlight">Export</a>
+                <a href="contact.html" class="nav-link highlight">Contact</a>
+                <a href="admin.html" class="nav-link highlight">🔑 Admin</a>
+            </nav>
+            <div>
+                <a href="export.html" class="btn btn-primary btn-small pulse-btn">Get Lifetime Access</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <section class="page-content">
+        <div class="page-container">
+            <h1>About the Ritemasta Ecosystem</h1>
+            
+            <p><strong>Publishing. Education. Technology. Innovation.</strong></p>
+            
+            <p>Ritemasta is a publishing, educational technology, media, and creative innovation ecosystem founded by Robert Ashley Nikoi.</p>
+
+            <p>Built on decades of practical experience in publishing, content creation, publication design, educational development, creative media, and technology innovation, the Ritemasta Ecosystem exists to empower authors, educators, students, ministries, institutions, businesses, and creators through world-class publishing and transformative technology.</p>
+
+            <p>Today, the ecosystem is built around four strategic pillars:</p>
+            <ul>
+                <li>Ritemasta Publications</li>
+                <li>RitemastaPro</li>
+                <li>Teecha AI</li>
+                <li>Ritemasta Studios</li>
+            </ul>
+            <p>Together, these initiatives represent a vision to transform how knowledge is created, published, distributed, taught, and experienced.</p>
+
+            <h2>Our Founder</h2>
+            <h3>Robert Ashley Nikoi</h3>
+            <p><strong>Author. Publisher. Creative Director. Educational Innovator. Technology Builder.</strong></p>
+            
+            <p>Robert Ashley Nikoi is an accomplished author, publisher, creative director, educational content developer, and technology innovator whose work spans academic publishing, magazine production, faith-based publishing, wellness publishing, branding, media production, educational technology, and digital innovation.</p>
+
+            <p>Unlike many publishing technology founders whose experience is limited to software development, Robert's journey combines authorship, editorial production, publication design, educational content creation, commercial printing workflows, and technology development.</p>
+
+            <p>This unique blend of experience provides the foundation upon which the Ritemasta Ecosystem is being built.</p>
+
+            <h2>Publishing Heritage</h2>
+            <p>Long before the development of RitemastaPro, Robert Ashley Nikoi and Ritemasta Studios were actively involved in professional publishing, editorial production, typography, publication design, branding, and print-ready output preparation.</p>
+
+            <p>These experiences included collaboration with editors, researchers, writers, academics, copyeditors, ministries, institutions, and publishing professionals to transform manuscripts and editorial content into professionally produced publications ready for commercial printing and digital distribution.</p>
+
+            <h3>Magazine Production Legacy</h3>
+            <p>Through Ritemasta Studios, Robert Ashley Nikoi contributed to the design, layout, typography, editorial production, and print preparation of multiple editions of Ghana Business & Finance Magazine published by African Business Media.</p>
+
+            <p>Working closely with editorial teams and contributors, Ritemasta Studios transformed raw editorial content into professionally designed magazine editions prepared for commercial printing and distribution.</p>
+
+            <p>This work included:</p>
+            <ul>
+                <li>Editorial Layout</li>
+                <li>Typography Systems</li>
+                <li>Publication Design</li>
+                <li>Prepress Preparation</li>
+                <li>Commercial Print Output</li>
+                <li>Production Workflow Coordination</li>
+            </ul>
+            <p>These experiences helped shape the publishing principles now embedded within RitemastaPro.</p>
+
+            <h3>Academic Publishing</h3>
+            <p>Robert Ashley Nikoi is the author of notable educational publications including:</p>
+            <ul>
+                <li><strong>Human & Regional Geography for SHS</strong> – A comprehensive educational resource developed for Senior High School students.</li>
+                <li><strong>Social Studies for JHS</strong> – A practical and curriculum-focused learning resource designed for Junior High School students.</li>
+                <li><strong>Practical Geography for SHS</strong> – An applied geography resource designed to support classroom learning and examination preparation.</li>
+            </ul>
+
+            <h3>Faith-Based Publishing</h3>
+            <p>Ritemasta has contributed to the publication of transformational faith-based resources including:</p>
+            <ul>
+                <li>Set Apart as a Prophet</li>
+                <li>The Sevenfold Inheritance Package</li>
+                <li>You Need Deliverance</li>
+            </ul>
+            <p>These publications reflect a commitment to producing content that informs, equips, and inspires readers.</p>
+
+            <h3>Wellness Publishing</h3>
+            <ul>
+                <li><strong>The Bitter Leaf & Coconut Water Protocol</strong> – A Step-by-Step Natural Protocol for Digestive Reset, Internal Cleansing & Daily Vitality.</li>
+                <li><strong>The Bitter Leaf Lifestyle</strong> – A forthcoming publication exploring practical wellness principles designed to support vitality, healthy living, and long-term wellbeing.</li>
+            </ul>
+
+            <h3>Inspirational Publishing</h3>
+            <ul>
+                <li><strong>CHESS OUT</strong> – Leave Ordinary. Return Extraordinary.</li>
+                <li><strong>SENT</strong> – An inspirational work focused on purpose, assignment, and impact.</li>
+                <li><strong>Stop Watching</strong> – A call to intentional action, growth, and personal transformation.</li>
+            </ul>
+
+            <h2>The Ritemasta Ecosystem</h2>
+            
+            <h3>Ritemasta Publications</h3>
+            <p>The publishing arm responsible for books, magazines, journals, educational resources, wellness publications, inspirational works, and future publishing initiatives.</p>
+
+            <h3>RitemastaPro</h3>
+            <p>The publishing technology platform designed to simplify professional publishing, content creation, formatting, production, and distribution workflows.</p>
+
+            <h3>Teecha AI</h3>
+            <p>An intelligent educational platform currently under development to provide curriculum-based learning resources, multimedia educational content, examination preparation tools, and AI-powered learning assistance.</p>
+
+            <h3>Ritemasta Studios</h3>
+            <p>The creative media and design division focused on branding, publication design, visual communication, digital media, and creative innovation.</p>
+
+            <h2>Our Vision</h2>
+            <p>To become one of Africa's leading publishing, educational technology, and creative innovation ecosystems.</p>
+
+            <h2>Our Mission</h2>
+            <p>To empower authors, educators, students, ministries, institutions, businesses, and creators through world-class publishing, educational resources, innovative technologies, and transformative content.</p>
+
+            <h2>Looking Ahead</h2>
+            <p>The future of Ritemasta extends beyond publishing.</p>
+
+            <p>Our long-term vision includes educational technology, artificial intelligence, digital publishing systems, curriculum support solutions, creative media innovation, and emerging technology initiatives designed to serve both African and global audiences.</p>
+
+            <p><strong>At the heart of every initiative remains a simple commitment:</strong></p>
+            <p><strong>Creating Knowledge. Empowering People. Transforming Ideas Into Impact.</strong></p>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <img src="logo.png" alt="Ritemasta Logo">
+                        </div>
+                        <div class="brand-lockup">
+                            <span class="brand-name">RitemastaPro</span>
+                            <span class="brand-tagline">PUBLISHING | TECHNOLOGY</span>
+                        </div>
+                    </div>
+                    <p class="footer-desc">The most affordable, feature-rich book publishing platform for independent authors and creators worldwide.</p>
+                    <div class="footer-contact">
+                        <p><strong>📧 Email:</strong></p>
+                        <p><a href="mailto:ritemasta@gmail.com">ritemasta@gmail.com</a></p>
+                        <p style="margin-top: 1rem;"><strong>📱 Phone:</strong></p>
+                        <p><a href="https://wa.me/233249845856">+233 249 845 856</a> (MTN)</p>
+                        <p><a href="https://wa.me/233500119195">+233 500 119 195</a> (Telecel)</p>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="upload.html">Upload</a></li>
+                        <li><a href="editor.html">Editor</a></li>
+                        <li><a href="export.html">Export</a></li>
+                        <li><a href="layout.html">Templates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="contact.html">FAQ</a></li>
+                        <li><a href="save.html">Save & Backup</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-legal">
+                <div class="legal-item">
+                    <div class="legal-label">Business Reg. No:</div>
+                    <div class="legal-value">BN360822013</div>
+                    <div class="legal-subtext">Registered under Ghana Business Names Act 1962, No. 151</div>
+                </div>
+                <div class="legal-item">
+                    <div class="legal-label">TIN:</div>
+                    <div class="legal-value">P0002032406</div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 RitemastaPro. All rights reserved.</p>
+                <p>Made with ❤️ in Ghana for creators worldwide</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
