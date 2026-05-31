@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – RitemastaPro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #FDF8F0;
+            color: #2D1B0E;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-weight: 700;
+            color: #2D1B0E;
+            letter-spacing: -0.02em;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: #2D1B0E;
+            padding: 0.8rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #FDF8F0;
+            font-family: 'Playfair Display', serif;
+        }
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .logo-accent { color: #D4A853; }
+        .brand-lockup {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+        }
+        .brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: #FDF8F0;
+            line-height: 1;
+        }
+        .brand-tagline {
+            font-family: 'Inter', sans-serif;
+            color: #D4A853;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        .nav {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .nav-link {
+            color: #B8A89A;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .nav-link:hover { color: #FDF8F0; }
+        .nav-link.active { color: #FDF8F0; background: #4A3728; }
+        .nav-link.highlight { color: #D4A853; font-weight: 700; }
+
+        /* ===== LOGIN ===== */
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #2D1B0E;
+        }
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+        .login-box h1 { font-size: 2rem; margin-bottom: 0.5rem; text-align: center; }
+        .login-box p { color: #8A7A6A; text-align: center; margin-bottom: 2rem; }
+        .login-box .form-group { margin-bottom: 1.5rem; }
+        .login-box label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .login-box input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #E8E0D8;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+        }
+        .login-box input:focus {
+            outline: none;
+            border-color: #D4A853;
+            box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.1);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: #D4A853;
+            color: #2D1B0E;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        .login-btn:hover { background: #C49A42; }
+
+        .dashboard { display: none; }
+        .dashboard.active { display: block; }
+
+        .admin-header {
+            background: #2D1B0E;
+            padding: 1.5rem;
+            color: white;
+        }
+        .admin-header h1 { color: white; font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .logout-btn {
+            background: #D4A853;
+            color: #2D1B0E;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .admin-content { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white;
+            border: 1px solid #E8E0D8;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-card h3 {
+            color: #8A7A6A;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .stat-card .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #D4A853;
+        }
+
+        .section {
+            background: white;
+            border: 1px solid #E8E0D8;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .section h2 { font-size: 1.6rem; margin-bottom: 1.5rem; color: #2D1B0E; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #E8E0D8;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #D4A853;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            background: #D4A853;
+            color: #2D1B0E;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn:hover { background: #C49A42; }
+
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        table th {
+            background: #FDF8F0;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #E8E0D8;
+        }
+        table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid #E8E0D8;
+        }
+        table tr:hover { background: #FDF8F0; }
+
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                align-items: center;
+            }
+            .nav {
+                justify-content: center;
+                width: 100%;
+            }
+            .form-row { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="logo.png" alt="RitemastaPro Logo">
+                </div>
+                <div class="brand-lockup">
+                    <span class="brand-name">Ritemasta<span class="logo-accent">Pro</span></span>
+                    <span class="brand-tagline">PUBLISHING | TECHNOLOGY</span>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="upload.html" class="nav-link">Upload</a>
+                <a href="editor.html" class="nav-link">Editor</a>
+                <a href="layout.html" class="nav-link">Layout</a>
+                <a href="save.html" class="nav-link">Save</a>
+                <a href="export.html" class="nav-link highlight">Export</a>
+                <a href="contact.html" class="nav-link highlight">Contact</a>
+                <a href="admin.html" class="nav-link active highlight">🔑 Admin</a>
+            </nav>
+            <div>
+                <a href="export.html" class="btn btn-primary btn-small pulse-btn">Get Lifetime Access</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <h1>🔑 Admin Login</h1>
+            <p>RitemastaPro Dashboard</p>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="passwordInput" placeholder="Enter admin password">
+            </div>
+            <button class="login-btn" onclick="adminLogin()">Login</button>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="admin-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1>📊 Admin Dashboard</h1>
+                <button class="logout-btn" onclick="adminLogout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>USD to GHS</h3>
+                    <div class="value" id="usdToGhs">Loading...</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Active Codes</h3>
+                    <div class="value" id="activeCodes">47</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Revenue (USD)</h3>
+                    <div class="value" id="totalRevenue">$2,349.53</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Users</h3>
+                    <div class="value" id="totalUsers">127</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎫 Generate Access Code</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <input type="text" placeholder="e.g., John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select>
+                            <option>Mobile Money (MTN)</option>
+                            <option>Mobile Money (Telecel)</option>
+                            <option>Cryptocurrency</option>
+                            <option>Bank Transfer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Amount Paid (USD)</label>
+                        <input type="number" placeholder="49.99" value="49.99">
+                    </div>
+                    <div class="form-group">
+                        <label>Amount Paid (GHS)</label>
+                        <input type="text" id="amountGhs" placeholder="Loading..." readonly>
+                    </div>
+                </div>
+                <button class="btn" onclick="generateCode()">Generate Code</button>
+            </div>
+
+            <div class="section">
+                <h2>📋 Recent Codes</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Customer</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RM-2026-A8F3</td>
+                                <td>Alice Johnson</td>
+                                <td>MTN Mobile Money</td>
+                                <td>✅ Redeemed</td>
+                                <td>Today</td>
+                            </tr>
+                            <tr>
+                                <td>RM-2026-B2K9</td>
+                                <td>Bob Smith</td>
+                                <td>Ethereum</td>
+                                <td>✅ Redeemed</td>
+                                <td>Yesterday</td>
+                            </tr>
+                            <tr>
+                                <td>RM-2026-C7L4</td>
+                                <td>Carol Davis</td>
+                                <td>Telecel Mobile Money</td>
+                                <td>⏳ Pending</td>
+                                <td>2 days ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon">
+                            <img src="logo.png" alt="RitemastaPro Logo">
+                        </div>
+                        <div class="brand-lockup">
+                            <span class="brand-name">RitemastaPro</span>
+                            <span class="brand-tagline">PUBLISHING | TECHNOLOGY</span>
+                        </div>
+                    </div>
+                    <p class="footer-desc">The most affordable, feature-rich book publishing platform for independent authors and creators worldwide.</p>
+                    <div class="footer-contact">
+                        <p><strong>📧 Email:</strong></p>
+                        <p><a href="mailto:ritemasta@gmail.com">ritemasta@gmail.com</a></p>
+                        <p style="margin-top: 1rem;"><strong>📱 Phone:</strong></p>
+                        <p><a href="https://wa.me/233249845856">+233 249 845 856</a> (MTN)</p>
+                        <p><a href="https://wa.me/233500119195">+233 500 119 195</a> (Telecel)</p>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="upload.html">Upload</a></li>
+                        <li><a href="editor.html">Editor</a></li>
+                        <li><a href="export.html">Export</a></li>
+                        <li><a href="layout.html">Templates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="contact.html">FAQ</a></li>
+                        <li><a href="save.html">Save & Backup</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-legal">
+                <div class="legal-item">
+                    <div class="legal-label">Business Reg. No:</div>
+                    <div class="legal-value">BN360822013</div>
+                    <div class="legal-subtext">Registered under Ghana Business Names Act 1962, No. 151</div>
+                </div>
+                <div class="legal-item">
+                    <div class="legal-label">TIN:</div>
+                    <div class="legal-value">P0002032406</div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2026 RitemastaPro. All rights reserved.</p>
+                <p>Made with ❤️ in Ghana for creators worldwide</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== ADMIN PASSWORD =====
+        const ADMIN_PASSWORD = 'RiteLuxi26!2026#Ghana$Publishing@RitemastaPro';
+
+        // ===== LOGIN / LOGOUT =====
+        function adminLogin() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').classList.add('active');
+            } else {
+                alert('❌ Incorrect password.');
+            }
+        }
+
+        function adminLogout() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('passwordInput').value = '';
+        }
+
+        // ===== LIVE USD to GHS CONVERSION =====
+        async function fetchExchangeRate() {
+            try {
+                const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+                const data = await response.json();
+                const ghsRate = data.rates.GHS;
+                document.getElementById('usdToGhs').textContent = ghsRate.toFixed(2);
+
+                const usdInput = document.querySelector('input[placeholder="49.99"]');
+                const ghsInput = document.getElementById('amountGhs');
+
+                if (usdInput) {
+                    usdInput.addEventListener('input', () => {
+                        const usd = parseFloat(usdInput.value) || 0;
+                        ghsInput.value = (usd * ghsRate).toFixed(2);
+                    });
+                    // Initial calculation
+                    const usd = parseFloat(usdInput.value) || 0;
+                    ghsInput.value = (usd * ghsRate).toFixed(2);
+                }
+            } catch (error) {
+                console.error('Error fetching exchange rate:', error);
+                document.getElementById('usdToGhs').textContent = 'Error';
+            }
+        }
+
+        // ===== GENERATE ACCESS CODE =====
+        function generateCode() {
+            const code = 'RM-2026-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+            let existingCodes = JSON.parse(localStorage.getItem('ritemasta_valid_codes') || '[]');
+            existingCodes.push(code);
+            localStorage.setItem('ritemasta_valid_codes', JSON.stringify(existingCodes));
+            alert(`✅ Code Generated: ${code}\n\nThis code has been saved.`);
+        }
+
+        // ===== INIT =====
+        fetchExchangeRate();
+    </script>
+</body>
+</html>
