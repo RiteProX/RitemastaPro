@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ===== RESET & BASE ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #FDF8F0; color: #2D1B0E; line-height: 1.6; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; color: #2D1B0E; letter-spacing: -0.02em; }
@@ -70,7 +71,6 @@
                 <input type="password" id="passwordInput" placeholder="Enter admin password">
             </div>
             <button class="login-btn" onclick="adminLogin()">Login</button>
-            <p style="text-align: center; font-size: 0.8rem; color: #8A7A6A; margin-top: 1rem;"></p>
         </div>
     </div>
 
@@ -113,7 +113,7 @@
                     <div class="form-group">
                         <label>Payment Method</label>
                         <select>
-                            <optioMobile Money (MTN)</option>
+                            <option>Mobile Money (MTN)</option>
                             <option>Mobile Money (Telecel)</option>
                             <option>Cryptocurrency</option>
                             <option>Bank Transfer</option>
@@ -169,13 +169,6 @@
                                 <td>⏳ Pending</td>
                                 <td>2 days ago</td>
                             </tr>
-                            <tr>
-                                <td>RM-2026-D1M8</td>
-                                <td>David Wilson</td>
-                                <td>Bitcoin</td>
-                                <td>✅ Redeemed</td>
-                                <td>3 days ago</td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -227,13 +220,18 @@
     </div>
 
     <script>
+        // ============================================================
+        //  ADMIN PASSWORD (LONG, COMPLEX, SECURE)
+        // ============================================================
+        const ADMIN_PASSWORD = 'RiteLuxi26!2026#Ghana$Publishing@RitemastaPro';
+
         function adminLogin() {
             const password = document.getElementById('passwordInput').value;
-            if (password === 'RiteLuxi26') {
+            if (password === ADMIN_PASSWORD) {
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('dashboard').classList.add('active');
             } else {
-                alert('❌ Incorrect password. Try RiteLuxi26');
+                alert('❌ Incorrect password.');
             }
         }
 
@@ -244,8 +242,15 @@
         }
 
         function generateCode() {
-            const code = 'RM-2026-' + Math.random().toString(36).substr(2, 5).toUpperCase();
-            alert(`✅ Code Generated: ${code}\n\nShare this with your customer for access.`);
+            // This is where you want to generate a random code.
+            const code = 'RM-2026-' + Math.random().toString(36).substr(2, 8).toUpperCase();
+            
+            // Save to local storage
+            let existingCodes = JSON.parse(localStorage.getItem('ritemasta_valid_codes') || '[]');
+            existingCodes.push(code);
+            localStorage.setItem('ritemasta_valid_codes', JSON.stringify(existingCodes));
+            
+            alert(`✅ Code Generated: ${code}\n\nThis code has been saved and can now be used to unlock exports.`);
         }
     </script>
 </body>
