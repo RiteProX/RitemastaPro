@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Support – RitemastaPro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #FDF8F0; color: #2D1B0E; line-height: 1.6; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; color: #2D1B0E; letter-spacing: -0.02em; }
+        a { text-decoration: none; color: inherit; }
+        
+        .header { background: #2D1B0E; padding: 0.8rem 1.5rem; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 15px rgba(0,0,0,0.2); }
+        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+        .logo { display: flex; align-items: center; gap: 0.5rem; font-size: 1.2rem; font-weight: 700; color: #FDF8F0; font-family: 'Playfair Display', serif; }
+        .logo-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+        .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .logo-accent { color: #D4A853; }
+        .brand-lockup { display: flex; flex-direction: column; align-items: center; line-height: 1; }
+        .brand-name { font-family: 'Playfair Display', serif; font-size: 1.85rem; font-weight: 700; color: #FDF8F0; line-height: 1; }
+        .brand-tagline { font-family: 'Inter', sans-serif; color: #D4A853; font-size: 0.65rem; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; margin-top: 4px; }
+        .nav { display: flex; gap: 0.8rem; flex-wrap: wrap; align-items: center; }
+        .nav-link { color: #B8A89A; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.85rem; font-weight: 500; transition: 0.2s; }
+        .nav-link:hover { color: #FDF8F0; }
+        .nav-link.active { color: #FDF8F0; background: #4A3728; }
+        .nav-link.highlight { color: #D4A853; font-weight: 700; }
+        
+        .btn { display: inline-block; padding: 0.6rem 1.5rem; border: none; border-radius: 50px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; font-size: 0.95rem; font-family: 'Inter', sans-serif; }
+        .btn-primary { background: #D4A853; color: #2D1B0E; box-shadow: 0 4px 12px rgba(212, 168, 83, 0.3); }
+        .btn-primary:hover { background: #C49A42; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 168, 83, 0.4); }
+        .btn-small { padding: 0.4rem 1.2rem; font-size: 0.85rem; }
+        .pulse-btn { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 168, 83, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(212, 168, 83, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 168, 83, 0); } }
+        
+        .page-content { padding: 4rem 1.5rem; background: white; min-height: calc(100vh - 300px); }
+        .page-container { max-width: 900px; margin: 0 auto; }
+        .page-content h1 { font-size: 2.8rem; margin-bottom: 1.5rem; color: #2D1B0E; }
+        .page-content h2 { font-size: 2rem; margin-top: 2.5rem; margin-bottom: 1.5rem; color: #2D1B0E; }
+        .page-content p { margin-bottom: 1.2rem; color: #4A3728; line-height: 1.8; font-size: 1rem; }
+        
+        .contact-form { background: #FDF8F0; border: 1px solid #E8E0D8; border-radius: 12px; padding: 2rem; margin: 2rem 0; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #2D1B0E; }
+        .form-group input,
+        .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid #E8E0D8; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; color: #4A3728; }
+        .form-group textarea { min-height: 120px; resize: vertical; }
+        .form-group input:focus,
+        .form-group textarea:focus { outline: none; border-color: #D4A853; box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.1); }
+        
+        .contact-info { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0; }
+        .info-card { background: #FDF8F0; border-radius: 12px; padding: 1.5rem; }
+        .info-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .info-title { font-weight: 700; color: #2D1B0E; margin-bottom: 0.5rem; }
+        .info-text { color: #4A3728; }
+        .info-text a { color: #D4A853; transition: 0.2s; }
+        .info-text a:hover { color: #2D1B0E; }
+        
+        .faq { margin: 2rem 0; }
+        .faq-item { border-bottom: 1px solid #E8E0D8; padding: 1.5rem 0; }
+        .faq-q { font-weight: 700; color: #2D1B0E; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-a { color: #4A3728; margin-top: 1rem; display: none; }
+        .faq-item.open .faq-a { display: block; }
+        
+        .footer { background: #1A0F08; color: #B8A89A; padding: 4rem 1.5rem 1.5rem; }
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 2.5rem; }
+        .footer-col h4 { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #FDF8F0; margin-bottom: 1rem; letter-spacing: 0.05em; text-transform: uppercase; }
+        .footer-logo { font-size: 1.2rem; font-weight: 700; color: #FDF8F0; font-family: 'Playfair Display', serif; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
+        .footer-logo-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; }
+        .footer-logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+        .footer-desc { font-size: 0.9rem; line-height: 1.6; max-width: 300px; margin-bottom: 1rem; }
+        .footer-contact { font-size: 0.9rem; line-height: 1.8; }
+        .footer-contact a { color: #D4A853; transition: 0.2s; }
+        .footer-contact a:hover { color: #FDF8F0; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 0.5rem; }
+        .footer-links a { font-size: 0.9rem; transition: 0.2s; }
+        .footer-links a:hover { color: #D4A853; }
+        .footer-bottom { border-top: 1px solid #2D4A5A; padding-top: 1.5rem; text-align: center; font-size: 0.8rem; color: #6A5A4A; }
+        .footer-legal { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; font-size: 0.8rem; line-height: 1.8; }
+        .legal-item { color: #8A7A6A; }
+        .legal-label { color: #FDF8F0; font-weight: 600; }
+        .legal-value { color: #B8A89A; font-size: 0.9rem; margin-top: 0.25rem; }
+        .legal-subtext { color: #6A5A4A; font-size: 0.8rem; margin-top: 0.25rem; opacity: 0.7; }
+        
+        @media (max-width: 1024px) { .contact-info { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; } .footer-legal { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon"><img src="logo.png" alt="Ritemasta Logo"></div>
+                <div class="brand-lockup">
+                    <span class="brand-name">Ritemasta<span class="logo-accent">Pro</span></span>
+                    <span class="brand-tagline">PUBLISHING | TECHNOLOGY</span>
+                </div>
+            </div>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="upload.html" class="nav-link">Upload</a>
+                <a href="editor.html" class="nav-link">Editor</a>
+                <a href="layout.html" class="nav-link">Layout</a>
+                <a href="save.html" class="nav-link">Save</a>
+                <a href="export.html" class="nav-link highlight">Export</a>
+                <a href="contact.html" class="nav-link active highlight">Contact</a>
+                <a href="admin.html" class="nav-link highlight">🔑 Admin</a>
+            </nav>
+            <div><a href="export.html" class="btn btn-primary btn-small pulse-btn">Get Lifetime Access</a></div>
+        </div>
+    </header>
+
+    <section class="page-content">
+        <div class="page-container">
+            <h1>Contact & Support</h1>
+            <p>We're here to help. Reach out with any questions or feedback about RitemastaPro.</p>
+
+            <h2>📨 Contact Form</h2>
+            <form class="contact-form" onsubmit="sendMessage(event)">
+                <div class="form-group">
+                    <label>Your Name *</label>
+                    <input type="text" placeholder="Full name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Address *</label>
+                    <input type="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Subject *</label>
+                    <input type="text" placeholder="How can we help?" required>
+                </div>
+                <div class="form-group">
+                    <label>Message *</label>
+                    <textarea placeholder="Tell us what you need..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+
+            <h2>📞 Direct Contact</h2>
+            <div class="contact-info">
+                <div class="info-card">
+                    <div class="info-icon">📧</div>
+                    <div class="info-title">Email</div>
+                    <div class="info-text"><a href="mailto:ritemasta@gmail.com">ritemasta@gmail.com</a></div>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">💬</div>
+                    <div class="info-title">WhatsApp</div>
+                    <div class="info-text"><a href="https://wa.me/233249845856">+233 249 845 856</a><br><a href="https://wa.me/233500119195">+233 500 119 195</a></div>
+                </div>
+            </div>
+
+            <h2>❓ Frequently Asked Questions</h2>
+            <div class="faq">
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">Is there a subscription fee? <span>+</span></div>
+                    <div class="faq-a">No! RitemastaPro is a one-time $49.99 payment for lifetime access. No recurring fees.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">Can I export in multiple formats? <span>+</span></div>
+                    <div class="faq-a">Yes! With your access pass, you get 6+ export formats: PDF, EPUB, MOBI, DOCX, HTML, and magazine layouts.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">Is my work automatically saved? <span>+</span></div>
+                    <div class="faq-a">Absolutely. Your manuscript auto-saves every 30 seconds. You can also manually save and download backups anytime.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">What payment methods do you accept? <span>+</span></div>
+                    <div class="faq-a">We accept Mobile Money (MTN/Telecel), Cryptocurrency (ETH/BNB/SOL/BTC), and other methods. All options are on the Export page.</div>
+                </div>
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">How many templates are included? <span>+</span></div>
+                    <div class="faq-a">We offer 28 professional templates across 7 categories: Wellness, Academic, Coaching, Novels, Magazines, Business, and Receipts.</div>
+                </div>
+            </div>
+
+            <h2>💬 Response Time</h2>
+            <p>We aim to respond to all inquiries within 24 hours. For urgent issues, reach out via WhatsApp.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">
+                        <div class="footer-logo-icon"><img src="logo.png" alt="Ritemasta Logo"></div>
+                        <div class="brand-lockup">
+                            <span class="brand-name">RitemastaPro</span>
+                            <span class="brand-tagline">PUBLISHING | TECHNOLOGY</span>
+                        </div>
+                    </div>
+                    <p class="footer-desc">The most affordable, feature-rich book publishing platform for independent authors and creators worldwide.</p>
+                    <div class="footer-contact">
+                        <p><strong>📧 Email:</strong></p>
+                        <p><a href="mailto:ritemasta@gmail.com">ritemasta@gmail.com</a></p>
+                        <p style="margin-top: 1rem;"><strong>📱 Phone:</strong></p>
+                        <p><a href="https://wa.me/233249845856">+233 249 845 856</a> (MTN)</p>
+                        <p><a href="https://wa.me/233500119195">+233 500 119 195</a> (Telecel)</p>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="upload.html">Upload</a></li>
+                        <li><a href="editor.html">Editor</a></li>
+                        <li><a href="export.html">Export</a></li>
+                        <li><a href="layout.html">Templates</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="contact.html">FAQ</a></li>
+                        <li><a href="save.html">Save & Backup</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="privacy.html">Privacy</a></li>
+                        <li><a href="terms.html">Terms</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-legal">
+                <div class="legal-item">
+                    <div class="legal-label">Business Reg. No:</div>
+                    <div class="legal-value">BN360822013</div>
+                    <div class="legal-subtext">Registered under Ghana Business Names Act 1962, No. 151</div>
+                </div>
+                <div class="legal-item">
+                    <div class="legal-label">TIN:</div>
+                    <div class="legal-value">P0002032406</div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 RitemastaPro. All rights reserved.</p>
+                <p>Made with ❤️ in Ghana for creators worldwide</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function sendMessage(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We\'ll respond within 24 hours.');
+        }
+
+        function toggleFAQ(item) {
+            item.classList.toggle('open');
+            item.querySelector('span').textContent = item.classList.contains('open') ? '−' : '+';
+        }
+    </script>
+</body>
+</html>

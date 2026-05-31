@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard – RitemastaPro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #FDF8F0; color: #2D1B0E; line-height: 1.6; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', Georgia, serif; font-weight: 700; color: #2D1B0E; letter-spacing: -0.02em; }
+        a { text-decoration: none; color: inherit; }
+        
+        .login-container { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #2D1B0E; }
+        .login-box { background: white; padding: 3rem; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-width: 400px; width: 90%; }
+        .login-box h1 { font-size: 2rem; margin-bottom: 0.5rem; text-align: center; }
+        .login-box p { color: #8A7A6A; text-align: center; margin-bottom: 2rem; }
+        .login-box .form-group { margin-bottom: 1.5rem; }
+        .login-box label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+        .login-box input { width: 100%; padding: 0.8rem; border: 1px solid #E8E0D8; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 1rem; }
+        .login-box input:focus { outline: none; border-color: #D4A853; box-shadow: 0 0 0 3px rgba(212, 168, 83, 0.1); }
+        .login-btn { width: 100%; padding: 0.8rem; background: #D4A853; color: #2D1B0E; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 1rem; transition: 0.3s; }
+        .login-btn:hover { background: #C49A42; }
+        
+        .dashboard { display: none; }
+        .dashboard.active { display: block; }
+        
+        .admin-header { background: #2D1B0E; padding: 1.5rem; color: white; }
+        .admin-header h1 { color: white; font-size: 1.8rem; margin-bottom: 0.5rem; }
+        .logout-btn { background: #D4A853; color: #2D1B0E; padding: 0.6rem 1.5rem; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+        
+        .admin-content { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: white; border: 1px solid #E8E0D8; border-radius: 12px; padding: 1.5rem; text-align: center; }
+        .stat-card h3 { color: #8A7A6A; font-size: 0.85rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-card .value { font-size: 2.5rem; font-weight: 700; color: #D4A853; }
+        
+        .section { background: white; border: 1px solid #E8E0D8; border-radius: 12px; padding: 2rem; margin-bottom: 2rem; }
+        .section h2 { font-size: 1.6rem; margin-bottom: 1.5rem; color: #2D1B0E; }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.95rem; }
+        .form-group input, .form-group select { width: 100%; padding: 0.6rem; border: 1px solid #E8E0D8; border-radius: 6px; font-family: 'Inter', sans-serif; font-size: 0.95rem; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #D4A853; }
+        
+        .btn { display: inline-block; padding: 0.6rem 1.5rem; background: #D4A853; color: #2D1B0E; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background: #C49A42; }
+        
+        .table-responsive { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        table th { background: #FDF8F0; padding: 1rem; text-align: left; font-weight: 600; border-bottom: 2px solid #E8E0D8; }
+        table td { padding: 0.8rem 1rem; border-bottom: 1px solid #E8E0D8; }
+        table tr:hover { background: #FDF8F0; }
+        
+        @media (max-width: 768px) { .form-row { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-box">
+            <h1>🔑 Admin Login</h1>
+            <p>RitemastaPro Dashboard</p>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="passwordInput" placeholder="Enter admin password">
+            </div>
+            <button class="login-btn" onclick="adminLogin()">Login</button>
+            <p style="text-align: center; font-size: 0.8rem; color: #8A7A6A; margin-top: 1rem;">Default: RiteLuxi26</p>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dashboard" id="dashboard">
+        <div class="admin-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1>📊 Admin Dashboard</h1>
+                <button class="logout-btn" onclick="adminLogout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Active Users</h3>
+                    <div class="value">247</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Access Codes Generated</h3>
+                    <div class="value">1,203</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Revenue</h3>
+                    <div class="value">$60,149</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Codes Redeemed</h3>
+                    <div class="value">89%</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎫 Generate Access Code</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <input type="text" placeholder="e.g., John Doe">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method</label>
+                        <select>
+                            <option>Mobile Money (MTN)</option>
+                            <option>Mobile Money (Telecel)</option>
+                            <option>Cryptocurrency</option>
+                            <option>Bank Transfer</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Amount Paid (USD)</label>
+                        <input type="number" placeholder="49.99" value="49.99">
+                    </div>
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date">
+                    </div>
+                </div>
+                <button class="btn" onclick="generateCode()">Generate Code</button>
+                <p style="color: #8A7A6A; font-size: 0.9rem; margin-top: 1rem;">Generated codes are saved to the system automatically.</p>
+            </div>
+
+            <div class="section">
+                <h2>📋 Recent Codes</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Customer</th>
+                                <th>Method</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RM-2026-A8F3</td>
+                                <td>Alice Johnson</td>
+                                <td>MTN Mobile Money</td>
+                                <td>✅ Redeemed</td>
+                                <td>Today</td>
+                            </tr>
+                            <tr>
+                                <td>RM-2026-B2K9</td>
+                                <td>Bob Smith</td>
+                                <td>Ethereum</td>
+                                <td>✅ Redeemed</td>
+                                <td>Yesterday</td>
+                            </tr>
+                            <tr>
+                                <td>RM-2026-C7L4</td>
+                                <td>Carol Davis</td>
+                                <td>Telecel Mobile Money</td>
+                                <td>⏳ Pending</td>
+                                <td>2 days ago</td>
+                            </tr>
+                            <tr>
+                                <td>RM-2026-D1M8</td>
+                                <td>David Wilson</td>
+                                <td>Bitcoin</td>
+                                <td>✅ Redeemed</td>
+                                <td>3 days ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📊 Revenue Breakdown</h2>
+                <p style="color: #8A7A6A; margin-bottom: 1rem;">Current Month: May 2026</p>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Payment Method</th>
+                                <th>Transactions</th>
+                                <th>Amount</th>
+                                <th>Percentage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mobile Money (MTN)</td>
+                                <td>156</td>
+                                <td>$7,644</td>
+                                <td>42%</td>
+                            </tr>
+                            <tr>
+                                <td>Mobile Money (Telecel)</td>
+                                <td>89</td>
+                                <td>$4,351</td>
+                                <td>24%</td>
+                            </tr>
+                            <tr>
+                                <td>Cryptocurrency</td>
+                                <td>112</td>
+                                <td>$5,488</td>
+                                <td>30%</td>
+                            </tr>
+                            <tr>
+                                <td>Bank Transfer</td>
+                                <td>23</td>
+                                <td>$1,127</td>
+                                <td>4%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function adminLogin() {
+            const password = document.getElementById('passwordInput').value;
+            if (password === 'RiteLuxi26') {
+                document.getElementById('loginScreen').style.display = 'none';
+                document.getElementById('dashboard').classList.add('active');
+            } else {
+                alert('❌ Incorrect password. Try RiteLuxi26');
+            }
+        }
+
+        function adminLogout() {
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('dashboard').classList.remove('active');
+            document.getElementById('passwordInput').value = '';
+        }
+
+        function generateCode() {
+            const code = 'RM-2026-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+            alert(`✅ Code Generated: ${code}\n\nShare this with your customer for access.`);
+        }
+    </script>
+</body>
+</html>
